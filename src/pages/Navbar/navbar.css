@@ -1,0 +1,20 @@
+#nav-menu a.active{
+    font-weight: bold;
+    padding-left:10px;
+}
+
+#nav-menu a:hover{
+    font-weight: 600;
+}
+
+#nav-menu a.disabled{
+    color:#ccc;
+    cursor: no-drop;
+}
+
+@media (max-width:767px)  {
+    #nav-menu a.active{
+        background-color:lightblue;
+    }
+}
+
