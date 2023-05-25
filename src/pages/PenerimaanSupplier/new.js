@@ -107,17 +107,17 @@ export default function PenerimaanBaru(props) {
 
             {/* no referensi */}
             <InputGroup className="mt-3">
-                <InputGroup.Text><GrDocumentText/></InputGroup.Text>
-                <Form.Control 
-                      value={formik.values.noRef}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      name="noRef"
-                      // onChange={(e)=>{setNoRef(e.target.value)}}
-                      type="input"
-                      lang="id-ID"
-                      id="referensi"
-                      placeholder="no ref"
+              <InputGroup.Text><GrDocumentText/></InputGroup.Text>
+              <Form.Control 
+                    value={formik.values.noRef}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    name="noRef"
+                    // onChange={(e)=>{setNoRef(e.target.value)}}
+                    type="input"
+                    lang="id-ID"
+                    id="referensi"
+                    placeholder="no ref"
                   />
             </InputGroup>
             {formik.errors.noRef ? <div className='form-error'>{formik.errors.noRef}</div> : null}
@@ -150,8 +150,8 @@ export default function PenerimaanBaru(props) {
                   <FaTimes/> CANCEL
                 </Button>
               </Col>
-          </Row>
-        </Form>
+            </Row>
+          </Form>
             
         </Col>
       </Row>

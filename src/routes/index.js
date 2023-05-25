@@ -1,7 +1,7 @@
 // Layout
-import HomeLayout from "../layout/HomeLayout";
-import MainLayout from "../layout/MainLayout";
-import MenuLayout from "../layout/MenuLayout";
+import HomeLayout from "../layouts/HomeLayout";
+import MainLayout from "../layouts/MainLayout";
+import MenuLayout from "../layouts/MenuLayout";
 
 // Pages
 import Home from "../Home";
@@ -16,6 +16,7 @@ import ReturSupplier from "../pages/ReturSupplier"
 import ReturCustomer from "../pages/ReturCustomer"
 
 import renderRoutes from "./GenerateRoute.js";
+import Login from "../pages/Login";
 
 const routes = [
     {
@@ -25,7 +26,14 @@ const routes = [
                 name:'home',
                 title:'Home Page',
                 component: Home,
-                path:'/home',
+                path:'/',
+                //(optional)
+                isPublic:true
+            },{
+                name:'login',
+                title:'Login Page',
+                component: Login,
+                path:'/login',
                 //(optional)
                 isPublic:true
             }
@@ -40,7 +48,7 @@ const routes = [
                 hasSiderLink:'true',
                 component:Dashboard,
                 //(optional)
-                path:'/'
+                path:'/dashboard'
             }
         ]
     },
