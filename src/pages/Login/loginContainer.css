@@ -6,7 +6,7 @@
 
 #loginImage{
     background-color: #263238 ;
-    height:25vh;
+    height:30vh;
     width:100vw;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@
 
 #formContainer {
     background-color: white;
-    height: 75vh;
+    height: 70vh;
     width: 100%;
     padding: 40px 5px;
     color: #777;

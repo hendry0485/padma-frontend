@@ -3,33 +3,42 @@ import { Container, FloatingLabel } from "react-bootstrap";
 import {Form, Button, Row, Col} from "react-bootstrap";
 import Logo from "./Logo.png";
 import "./loginContainer.css";
+import DividerText from "../../components/dividerText";
+import { useState } from "react";
+
 
 
 const Login = () => {
+
+    const [userCode, setUserCode] = useState("");
+    const checkUserCode = (uC) =>{
+        setUserCode(uC);   
+    }
+
     const validate = values => {
-    const errors = {}; 
-    if (!values.username) {
-        errors.username = 'Required';
-    }
+        const errors = {}; 
+        if (!values.username) {
+            errors.username = 'Required';
+        }
 
-    if (!values.password) {
-        errors.password = 'Required';
-    }
+        if (!values.password) {
+            errors.password = 'Required';
+        }
 
-    return errors;
+        return errors;
     }
     const formik = useFormik({
-    initialValues:{
-        username: '',
-        password: '',
-    },
-    validate,
-    onSubmit : (values,{setSubmitting}) => {
-        setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-        }, 400);
-    },
+        initialValues:{
+            username: '',
+            password: '',
+        },
+        validate,
+        onSubmit : (values,{setSubmitting}) => {
+            setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+            }, 400);
+        },
     });
 
   return (
@@ -101,6 +110,23 @@ const Login = () => {
                                     </Col>
                                 </Row>
                             </Form>
+                        </Col>
+                    </Row>
+
+                    <Row >
+                        <Col>
+                            <DividerText>
+                                atau
+                            </DividerText>
+                            <Form.Control 
+                                value={userCode}
+                                onChange={(e)=>checkUserCode(e.target.value)}
+                                name="userCode"
+                                type="password"
+                                placeholder="input kode user*"
+                                size="lg"
+                            />
+                            
                         </Col>
                     </Row>
                 </Container>
