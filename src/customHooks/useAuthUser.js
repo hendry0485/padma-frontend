@@ -6,7 +6,7 @@ import useLocalStorage from "./useLocalStorage";
 
 const AuthContext = createContext();
 
-const AuthProvider = ({chidren}) => {
+export const AuthProvider = ({children}) => {
   const [user, setUser] = useLocalStorage("user",null);
   const navigate = useNavigate();
 
@@ -24,14 +24,11 @@ const AuthProvider = ({chidren}) => {
     user,
     login,
     logout
-  },[user]));
+  }),[user]);
 
-  return <AuthContext.Provider></AuthContext.Provider>
-}
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+};
 
-export default function useAuthUser() {
-  
-  return (
-    <div>useAuthUser</div>
-  )
-}
+export const useAuthUser = () => {
+  return useContext(AuthContext);
+};

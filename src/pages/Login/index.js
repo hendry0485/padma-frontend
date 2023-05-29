@@ -7,14 +7,13 @@ import DividerText from "../../components/dividerText";
 import { useState } from "react";
 import BarcodeReaderCamera from "../../components/barcodeReaderCamera";
 import { IoCameraOutline } from 'react-icons/io5';
+import { useAuthUser } from "../../customHooks/useAuthUser";
 
 
 const Login = () => {
 
     const [userCode, setUserCode] = useState("");
-    const checkUserCode = (uC) =>{
-        setUserCode(uC);
-    }
+    const {login} = useAuthUser();
 
     const validate = values => {
         const errors = {}; 
@@ -35,10 +34,10 @@ const Login = () => {
         },
         validate,
         onSubmit : (values,{setSubmitting}) => {
-            setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            }, 400);
+            login({
+                username:values.username,
+                password:values.password
+            })
         },
     });
 
