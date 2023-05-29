@@ -1,18 +1,19 @@
 import { useFormik } from "formik";
-import { Container, FloatingLabel } from "react-bootstrap";
+import { Container, FloatingLabel, InputGroup } from "react-bootstrap";
 import {Form, Button, Row, Col} from "react-bootstrap";
 import Logo from "./Logo.png";
 import "./loginContainer.css";
 import DividerText from "../../components/dividerText";
 import { useState } from "react";
-
+import BarcodeReaderCamera from "../../components/barcodeReaderCamera";
+import { IoCameraOutline } from 'react-icons/io5';
 
 
 const Login = () => {
 
     const [userCode, setUserCode] = useState("");
     const checkUserCode = (uC) =>{
-        setUserCode(uC);   
+        setUserCode(uC);
     }
 
     const validate = values => {
@@ -40,6 +41,19 @@ const Login = () => {
             }, 400);
         },
     });
+
+    const [show, setShow] = useState(false);
+
+    const handleCloseModal = (val) => {
+        setUserCode(val);
+        if (val !== '') {
+            setShow(false);
+        }
+    };
+    const handleShow = () => {
+        setUserCode("");
+        setShow(true);
+    }
 
   return (
     <>
@@ -118,14 +132,18 @@ const Login = () => {
                             <DividerText>
                                 atau
                             </DividerText>
-                            <Form.Control 
-                                value={userCode}
-                                onChange={(e)=>checkUserCode(e.target.value)}
-                                name="userCode"
-                                type="password"
-                                placeholder="input kode user*"
-                                size="lg"
-                            />
+                            <InputGroup>
+                                <Form.Control 
+                                    value={userCode}
+                                    onChange={(e)=>setUserCode(e.target.value)}
+                                    name="userCode"
+                                    type="input"
+                                    placeholder="input kode user*"
+                                    size="lg"
+                                    aria-describedby="basic-addon2"
+                                />
+                                <InputGroup.Text id="basic-addon2" onClick={handleShow}><IoCameraOutline/></InputGroup.Text>
+                            </InputGroup>
                             
                         </Col>
                     </Row>
@@ -133,6 +151,8 @@ const Login = () => {
             </div>
 
         </div>
+
+        {show && <BarcodeReaderCamera handleClose={()=>setShow(false)} setCode={(val)=>handleCloseModal(val)}/>}
     </>
   )
 }
