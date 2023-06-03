@@ -6,8 +6,14 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import "./navbar.css";
 import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import { Dropdown } from 'react-bootstrap';
+import NavItem from 'react-bootstrap/NavItem';
+import { FaRegUser } from 'react-icons/fa';
+import { useAuthUser } from '../../customHooks/useAuthUser';
 
 const MenuBar = (props) => {
+  const {logout} = useAuthUser();
+
   const buttonList = [
     {text:"Registrasi Barcode",
       link:'/registrasi-barcode',
@@ -47,11 +53,22 @@ const MenuBar = (props) => {
           >
           <Container>
             <Navbar.Brand>
-            <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
-              PELITA ABADI
-            </Link>
+              <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
+                PELITA ABADI
+              </Link>
             </Navbar.Brand>
-            <Navbar.Toggle/>
+              <div style={{display:"flex",alignItems:"center", justifyContent:"space-beetween"}}>
+                  <Dropdown as={NavItem} className='px-3'>
+                    <Dropdown.Toggle as={Nav.Link}  className="justify-content-end"><FaRegUser/></Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>
+                        <Nav.Link onClick={logout}>Logout</Nav.Link>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Navbar.Toggle/>
+              </div>
+            
             <Navbar.Offcanvas 
               bg="dark"
               id={`offcanvasNavbar-expand-${expand}`}

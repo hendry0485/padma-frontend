@@ -1,18 +1,24 @@
 import { useFormik } from "formik";
-import { Container, FloatingLabel, InputGroup } from "react-bootstrap";
+import { Alert, Container, FloatingLabel, InputGroup } from "react-bootstrap";
 import {Form, Button, Row, Col} from "react-bootstrap";
 import Logo from "./Logo.png";
 import "./loginContainer.css";
 import DividerText from "../../components/dividerText";
 import { useState } from "react";
 import BarcodeReaderCamera from "../../components/barcodeReaderCamera";
-import { IoCameraOutline } from 'react-icons/io5';
+import { IoCameraOutline, IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { useAuthUser } from "../../customHooks/useAuthUser";
+import axios from "../../api/axios";
+import { useEffect } from "react";
+
 
 
 const Login = () => {
 
     const [userCode, setUserCode] = useState("");
+    const [loginCode, setLoginCode] = useState(false);
+    const [toggleCode, setToggleCode] = useState(true)
+    const [errMessage, setErrMessage] = useState('');
     const {login} = useAuthUser();
 
     const validate = values => {
@@ -33,11 +39,39 @@ const Login = () => {
             password: '',
         },
         validate,
-        onSubmit : (values,{setSubmitting}) => {
-            login({
-                username:values.username,
-                password:values.password
-            })
+        onSubmit : async (values) => {
+            setErrMessage("");
+            try {
+                await axios.get(
+                  "/users",{
+                    params:{
+                        username:values.username,
+                        PIN:values.password
+                    }
+                  }
+                ).then(function (response) {
+                  if (response.data.length > 0) {
+                    setErrMessage("");
+                    login(values.username);
+                    // login(response.data.username);
+                }else{
+                    console.log(values);
+                    setErrMessage("Username And Password no match");
+                  }
+                })
+                .catch(function (error) {
+                    setErrMessage(error);
+                })
+                .finally(function () {
+                  // always executed
+                });  
+                // setUser(data);
+                // navigate("/dashboard",{replace:true});
+            } catch (err) {
+                if (!err?.response) {
+                    setErrMessage("No Server Response");
+                }
+            }
         },
     });
 
@@ -49,6 +83,16 @@ const Login = () => {
             setShow(false);
         }
     };
+
+    useEffect(() => {
+      if (userCode.length > 0) {
+        if (userCode.toString() == "50604159") {
+            login("admin32");
+        }
+      }
+    }, [userCode])
+    
+
     const handleShow = () => {
         setUserCode("");
         setShow(true);
@@ -73,6 +117,9 @@ const Login = () => {
                 <Container>
                     <Row>
                         <Col>
+                            {errMessage.length > 0 ? <Alert variant="danger">
+                                {errMessage}
+                            </Alert> : <></>}
                             <Form onSubmit={formik.handleSubmit}>
                                 <Form.Group>
                                     {/* username */}
@@ -117,7 +164,7 @@ const Login = () => {
                                         
                                 <Row>
                                     <Col className="d-grid">
-                                        <Button type="submit" disabled={formik.isSubmitting} className='mt-4' size="lg" variant="primary ">
+                                        <Button type="submit" onClick={()=>setLoginCode(false)} disabled={formik.isSubmitting} className='mt-4' size="lg" variant="primary ">
                                         LOGIN 
                                         </Button>
                                     </Col>
@@ -136,11 +183,16 @@ const Login = () => {
                                     value={userCode}
                                     onChange={(e)=>setUserCode(e.target.value)}
                                     name="userCode"
-                                    type="input"
+                                    type={toggleCode ? "password" : "input"}
                                     placeholder="input kode user*"
                                     size="lg"
                                     aria-describedby="basic-addon2"
                                 />
+
+                                <InputGroup.Text onClick={()=>setToggleCode(!toggleCode)}>
+                                    {toggleCode && <IoEyeOffOutline/>}
+                                    {!toggleCode && <IoEyeOutline/>}
+                                </InputGroup.Text>
                                 <InputGroup.Text id="basic-addon2" onClick={handleShow}><IoCameraOutline/></InputGroup.Text>
                             </InputGroup>
                             

@@ -1,23 +1,32 @@
 // import { useState } from "react"
 
 import { useFormik } from "formik";
-import { useState } from "react";
-import {Form, Button, FloatingLabel, Modal, CloseButton} from "react-bootstrap";
+import { useState, useEffect } from "react";
+import {Form, Button, FloatingLabel, Modal, CloseButton, Alert} from "react-bootstrap";
 import { BsBuilding } from 'react-icons/bs';
 import { FaWarehouse, FaSave } from 'react-icons/fa';
 import { GrDocumentText } from 'react-icons/gr';
 import { NavLink } from "react-router-dom";
 import DatepickerFloating from "../../components/datepickerFloating";
+import UseAxios from "../../customHooks/useAxios";
+
+
 
 export default function PenerimaanBaru(props) {
   const getDate = new Date();
-  const today = getDate.getDate()+'/'+((getDate.getMonth()+1) < 10 ? '0' : "" )+(getDate.getMonth() + 1) + '/' + getDate.getFullYear();
+  const today = (getDate.getDate() < 10 ? '0'+getDate.getDate() : getDate.getDate() )+'/'+((getDate.getMonth()+1) < 10 ? '0' : "" )+(getDate.getMonth() + 1) + '/' + getDate.getFullYear();
   
   const [tanggal, setTanggal] = useState(today);
+  const [data, setData] = useState(null)
+  const [errMessage, setErrMessage] = useState('');
 
   const [show, setShow] = useState(props.show);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+//=================axios==========
+  
+  // let response, error , loading;
 
 //=================formik==========
   const validate = values => {
@@ -48,13 +57,22 @@ export default function PenerimaanBaru(props) {
       noRef: '',
     },
     validate,
-    onSubmit : (values,{setSubmitting}) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
+    onSubmit : async (values) => {
+      const {response, error, loading} = UseAxios({
+        method:"post",
+        url:"/penjualan",
+        headers: JSON.stringify({ accept: '*/*' }),
+        body: JSON.stringify(values),
+      });
+
+      
     },
   });
+  // useEffect(() => {
+  //   if (response !== null) {
+  //       setData(response);
+  //   }
+  // }, [response]);
 //=================================
   function getTanggal(value){
     setTanggal(value); 
@@ -71,22 +89,24 @@ export default function PenerimaanBaru(props) {
         </Modal.Header>
 
         <Modal.Body>
-
+        {/* {error.message > 0 ? <Alert variant="danger">
+                                {error.message}
+                            </Alert> : <></>} */}
         <Form onSubmit={formik.handleSubmit}>
           {/* tanggal */}
-          <DatepickerFloating setDateValue={getTanggal} tanggal={tanggal}/>
+          <DatepickerFloating setDateValue={getTanggal} tanggal={today}/>
           {formik.errors.tanggal}
           
           <br/>
 
           {/* supplier */}
-          <FloatingLabel controlId="floatingSupplier" label="Supplier">
+          <FloatingLabel label="Supplier">
             <Form.Select 
               name="supplier"
               value={formik.values.supplier}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange} 
-              id="supplierSelect">
+              >
               <option value="">Pilih</option>
               <option value="1">Kahatex (Cijerah)</option>
               <option value="2">Kahatex (Rancaekek) </option>
@@ -95,7 +115,7 @@ export default function PenerimaanBaru(props) {
           {formik.errors.supplier ? <div className='form-error'>{formik.errors.supplier}</div> : null}
           <br/>
           {/* no referensi */}
-          <FloatingLabel controlId="floatingRef" label="No Referensi">
+          <FloatingLabel label="No Referensi">
             <Form.Control 
                   value={formik.values.noRef}
                   onBlur={formik.handleBlur}
@@ -112,7 +132,7 @@ export default function PenerimaanBaru(props) {
 
           <br/>
           {/* gudang */}
-          <FloatingLabel controlId="floatingGudang" label="Gudang">
+          <FloatingLabel label="Gudang">
             <Form.Select 
               name="gudang"
               value={formik.values.gudang}

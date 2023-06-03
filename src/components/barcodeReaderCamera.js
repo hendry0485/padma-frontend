@@ -4,6 +4,12 @@ import { styled } from 'styled-components';
 import { Button, Modal } from 'react-bootstrap';
 import { IoCameraReverseOutline } from 'react-icons/io5';
 
+const CameraContainer = styled.div`
+    width:340px;
+    padding:20px;
+    margin:auto;
+`;
+
 const CameraBox = styled.div`
     width:300px;
     height:300px;
@@ -106,11 +112,11 @@ const BarcodeReaderCamera = (props) => {
     return (
         <>
             <Modal show="true" 
-                size="sm"
+                size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <Modal.Body>
-                    <div style={{width:"340px", padding:"20px", margin:"auto"}}>
+                    <CameraContainer >
                         <CameraBox>
                             <div>
                                 <video id="video" style={{height:"300px",width:"300px", objectFit: "cover", objectPosition: "50% 50%"}} ></video>
@@ -139,8 +145,8 @@ const BarcodeReaderCamera = (props) => {
                         </div> */}
 
                         
-                        <div id="result"><label>Result:</label>{result}</div>
-                    </div>
+                        {/* <div id="result"><label>Result:</label>{result}</div> */}
+                    </CameraContainer>
                 </Modal.Body>
             </Modal>
         </>

@@ -4,15 +4,22 @@ import { Routes } from "./routes";
 import HomeLayout from "./layouts/HomeLayout";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
+import MenuLayout from "./layouts/MenuLayout";
 
+//Login
+import Login from "./pages/Login";
 // Pages
 import Home from "./Home";
 import Dashboard from "./pages/Dashboard";
+
+//Penerimaan
 import PenerimaanSupplier from "./pages/PenerimaanSupplier";
-import Login from "./pages/Login";
+import PenerimaanSupplierEdit from "./pages/PenerimaanSupplier/edit";
+
 
 //Error Pages
 import ErrorPage from "./pages/ErrorPage";
+import { element } from "prop-types";
 
 
 function App() {
@@ -41,13 +48,28 @@ const router = createBrowserRouter([
               ]
           },
           {
-              element:<MainLayout/>, //this is protectedLayout
-              path:"/dashboard",
+              element:<MenuLayout/>, //this is protectedLayout
               children:[
-                  {
-                      element:<PenerimaanSupplier/>,
-                      path:"penerimaan-supplier"
-                  }
+                {
+                  path:"/dashboard",
+                  element:<Dashboard/>
+                }
+              ]
+          },
+          {
+              element:<MainLayout/>, //this is protectedLayout
+              children:[
+                {
+                    element:<PenerimaanSupplier title={"Penerimaan Supplier"}/>,
+                    path:"/penerimaan-supplier/*",
+                    children:[
+                      {
+                        element:<PenerimaanSupplierEdit/>,
+                        path:":id"
+                      }
+
+                    ]
+                }
               ]
           }
       ],

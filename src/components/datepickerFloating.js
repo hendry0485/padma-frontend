@@ -13,7 +13,7 @@ const DatepickerFloating = (props) => {
     return (
 
         <>
-            <FloatingLabel controlId="floatingTanggal" label="tanggal" >
+            <FloatingLabel label="tanggal" >
                 <FormControl 
                         type="input"
                         readOnly

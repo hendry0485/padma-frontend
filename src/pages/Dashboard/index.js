@@ -2,54 +2,69 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import "./Dashboard.css";
-import logo from '../../images/Logo.png'
+import { Col, Container, Row } from 'react-bootstrap';
+import { styled } from 'styled-components';
+import { FcInTransit, FcTreeStructure, FcUndo, FcFullTrash, FcSynchronize, FcCalculator } from "react-icons/fc"
+
+const DashboardBox = styled.div`
+    background-color: white;
+    height:100vh;
+    width:100vw;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    padding:30px;
+`;
+
+const IconBox = styled.p`
+  font-size:20px;
+`
+
 
 const Dashboard = () => {
   const buttonList = [
     {text:"Penerimaan Supplier",
-      link:'/penerimaan-supplier'},
+      link:'/penerimaan-supplier',
+      icon:<FcInTransit/>
+    },
     {text:"Penjualan",
-      link:'/penjualan'},
+      link:'/penjualan',
+      icon:<FcCalculator/>
+    },
     {text:"Assembly",
-      link:'/assembly'}, 
+      link:'/assembly',
+      icon:<FcTreeStructure/>
+    }, 
     {text:"Retur Supplier",
-      link:'/retur-supplier'},
+      link:'/retur-supplier',
+      icon:<FcUndo/>
+    },
     {text:"Retur Customer",
-      link:'/retur-customer'},
+      link:'/retur-customer',
+      icon:<FcSynchronize/>
+    },
     {text:"Waste",
-      link:'/waste'}
+      link:'/waste',
+      icon:<FcFullTrash/>
+    }
   ];
 
   return (
-    <div id="containerDashboard">
-      {/* <h2 className='text-center'>Dashboard</h2> */}
-      <img src={logo} className="App-logo" alt="logo" />
-      <div className='container my-4'>
-        <div className='row my-1'>
-          <div className="col d-grid">
-            <Button variant="warning">Registrasi Barcode</Button>
-          </div>
-        </div>
-
-        <div className='row p-2'>
+    <DashboardBox>
+        <Row>
           {buttonList.map((button,index)=>{
             return (
-              <NavLink key={index} className='col-4 d-grid p-1' to={button.link} >
-                <Button className='py-3' size="sm" variant="primary">
+              <NavLink key={index} className='col-6 col-sm-4 col-lg-3 d-grid p-1' style={{textDecoration:"none"}} to={button.link} >
+                <Button className='py-3 text-left' size="sm" variant="outline-secondary">
+                    <IconBox>{button.icon}</IconBox>
                     {button.text.toString().toUpperCase()}
                 </Button>
               </NavLink>
             )
           })}
-        </div>
-
-        <div className='row my-1'>
-          <div className="col d-grid gap-2">
-            <Button variant="secondary">Back</Button>
-          </div> 
-        </div>
-      </div>
-    </div>
+        </Row>
+    </DashboardBox>
   )
 }
 

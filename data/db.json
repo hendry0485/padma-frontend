@@ -1,0 +1,184 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin32",
+      "password": "a40c2ee180ee63d5a75a851e36e7b7b4",
+      "nama": "Xiang",
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "1",
+      "time_start": "00:00:00",
+      "time_end": "23:59:00",
+      "printer_list_id": "5",
+      "status_aktif": "1",
+      "PIN": "laguku",
+      "kode": "50604159"
+    },
+    {
+      "id": "3",
+      "username": "tester",
+      "password": "e10adc3949ba59abbe56e057f20f883e",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "5",
+      "time_start": "07:30:00",
+      "time_end": "17:30:00",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "e10adc"
+    },
+    {
+      "id": "5",
+      "username": "diana",
+      "password": "c19682b7d079953bec6e9cb67a507eda",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "5",
+      "time_start": "06:00:00",
+      "time_end": "17:30:00",
+      "printer_list_id": "9",
+      "status_aktif": "1",
+      "PIN": "c19682"
+    },
+    {
+      "id": "8",
+      "username": "favour90",
+      "password": "cc4d79ac8503070f242af1c3a34b6783",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "2",
+      "time_start": "00:00:00",
+      "time_end": "23:59:00",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "cc4d79"
+    },
+    {
+      "id": "9",
+      "username": "Anthony",
+      "password": "885dd98a14fb82263ff20de8b09f484f",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "2",
+      "time_start": "00:00:00",
+      "time_end": "23:59:00",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "300195"
+    },
+    {
+      "id": "10",
+      "username": "Harry",
+      "password": "575eced773cee1676c43a83d31a6faba",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "2",
+      "time_start": "00:00:00",
+      "time_end": "23:59:00",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "575ece"
+    },
+    {
+      "id": "16",
+      "username": "monica",
+      "password": "e3c7e946a5c7353303db6ddb132c17c1",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "6",
+      "time_start": "08:00:00",
+      "time_end": "17:30:00",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "e3c7e9"
+    },
+    {
+      "id": "17",
+      "username": "ika001",
+      "password": "f621ae880bbe6d4a0bf97202f6ba8345",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "7",
+      "time_start": "00:00:00",
+      "time_end": "23:59:59",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "f621ae"
+    },
+    {
+      "id": "18",
+      "username": "elinda",
+      "password": "d0970714757783e6cf17b26fb8e2298f",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "5",
+      "time_start": "05:30:00",
+      "time_end": "21:00:00",
+      "printer_list_id": "9",
+      "status_aktif": "1",
+      "PIN": "d09707"
+    },
+    {
+      "id": "20",
+      "username": "susi",
+      "password": "536509c00c1e892ca5d0e090bfa08dd2",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "6",
+      "time_start": "07:30:00",
+      "time_end": "17:30:00",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "536509"
+    },
+    {
+      "id": "22",
+      "username": "mega",
+      "password": "9acb84fb682f2f0a46d8967a2f4f52dc",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "5",
+      "time_start": "05:30:00",
+      "time_end": "17:30:00",
+      "printer_list_id": "9",
+      "status_aktif": "1",
+      "PIN": "9acb84"
+    },
+    {
+      "id": "23",
+      "username": "naomi",
+      "password": "4310a315c31b001aef09080e0fd2350f",
+      "nama": null,
+      "alamat": null,
+      "telepon": null,
+      "posisi_id": "5",
+      "time_start": "07:30:00",
+      "time_end": "17:30:00",
+      "printer_list_id": null,
+      "status_aktif": "1",
+      "PIN": "4310a3"
+    }
+  ],
+  "penjualan":[
+    {
+        "id":1,"kode_transaksi_id":1,"no_transaksi":"111","tgl_transaksi":"2023-05-31 14:52:53","no_ref":"111","customer_id":null,"customer_nama":"111","user_id":1,"user_nama":"MAHMUD","gudang_id":1,"gudang_nama":"TOKO","catatan":null,"status":1,"created_by":null,"created_at":null,"updated_by":null,"updated_at":null,
+        "total_item":1, "total_unit":1, "total_qty":100,
+        "detail":[
+            {
+                "id":1,"header_id":1,"barang_id":1,"barang_nama":"HEAVY TASLAN","satuan_id":null,"satuan_nama":"YARD","warna_id":1,"warna_nama":"BLACK","sku_roll":111002993,"qty":100,"flag":1
+            }
+        ]
+    }
+  ]
+}

@@ -118,7 +118,7 @@ const Calendar = (props) => {
 
     let inactive = true;
     const getDate = new Date();
-    const today = getDate.getDate()+'/'+((getDate.getMonth()+1) < 10 ? '0' : "" )+(getDate.getMonth() + 1) + '/' + getDate.getFullYear();
+    const today = (getDate.getDate() < 10 ? '0'+getDate.getDate() : getDate.getDate() )+'/'+((getDate.getMonth()+1) < 10 ? '0' : "" )+(getDate.getMonth() + 1) + '/' + getDate.getFullYear();
     const dataTanggal = today.split("/");
     const initialValues = createDateList(today);
 

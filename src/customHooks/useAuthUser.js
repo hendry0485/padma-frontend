@@ -14,7 +14,7 @@ export const AuthProvider = ({children}) => {
     setUser(data);
     navigate("/dashboard",{replace:true});
   };
-
+  
   const logout = () => {
     setUser(null);
     navigate("/login",{replace:true});
