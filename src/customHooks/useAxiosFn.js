@@ -1,39 +1,33 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+axios.defaults.baseURL = "http://localhost:8000";
 
-axios.defaults.baseURL = "http://pelita.local:81/cano/api";
-
-const useAxios = ({url, method, body = null, headers=null}) => {
-    const [response, setResponse] = useState(null);
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true);
-
-
+const fnAxios = async (configParams) => {
+    let data = [];
+    let errorMsg = "";
+    
     try {
-        axios[method](url,JSON.parse(headers), JSON.parse(body))
+        await axios.request(configParams)
         .then(function (response) {
-          setResponse(response.data);
+          data = response.data;
         })
         .catch(function (error) {
-            setError(error);
+            errorMsg = error;
         })
         .finally(function () {
           // always executed
-          setLoading(false);
         }); 
     } catch (err) {
         if (!err?.response) {
-            setError("No Server Response");
+            errorMsg = ("No Server Response");
         }else if (err.response?.status === 409) {
-            setError("Username Taken");
+            errorMsg = ("Username Taken");
         } else {
-            setError("Transaction Failed");
+            errorMsg = ("Transaction Failed");
         }
     }
 
-    return {response, error, loading}
+    return {response: data, errorMsg : errorMsg}
     
 }
 
-export default useAxios;
+export default fnAxios;

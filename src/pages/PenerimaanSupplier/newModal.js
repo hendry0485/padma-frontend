@@ -6,9 +6,10 @@ import {Form, Button, FloatingLabel, Modal, CloseButton, Alert} from "react-boot
 import { BsBuilding } from 'react-icons/bs';
 import { FaWarehouse, FaSave } from 'react-icons/fa';
 import { GrDocumentText } from 'react-icons/gr';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import DatepickerFloating from "../../components/datepickerFloating";
 import UseAxios from "../../customHooks/useAxios";
+import Loader from "../../components/loader";
 
 
 
@@ -16,17 +17,18 @@ export default function PenerimaanBaru(props) {
   const getDate = new Date();
   const today = (getDate.getDate() < 10 ? '0'+getDate.getDate() : getDate.getDate() )+'/'+((getDate.getMonth()+1) < 10 ? '0' : "" )+(getDate.getMonth() + 1) + '/' + getDate.getFullYear();
   
-  const [tanggal, setTanggal] = useState(today);
-  const [data, setData] = useState(null)
-  const [errMessage, setErrMessage] = useState('');
+  const navigate = useNavigate();
 
-  const [show, setShow] = useState(props.show);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [tanggal, setTanggal] = useState(today);
+  const [fetchParams, setFetchParams] = useState({
+    method:"",
+    url:"",
+    params: {}
+  })
 
 //=================axios==========
   
-  // let response, error , loading;
+  const {response, error , loading} = UseAxios(fetchParams);
 
 //=================formik==========
   const validate = values => {
@@ -49,36 +51,62 @@ export default function PenerimaanBaru(props) {
 
     return errors;
   }
+
+  const nData = {
+    kode_transaksi_id: "",
+    no_transaksi: "",
+    tgl_transaksi: "",
+    no_ref: "",
+    nama: "",
+    user_id: 1,
+    user_nama: "",
+    gudang_id: 1,
+    gudang_nama: "",
+    catatan: null,
+    status: 1,
+    created_by: null,
+    created_at: null,
+    updated_by: null,
+    updated_at: null,
+    total_item: 0,
+    total_unit: 0,
+    total_qty: 0,
+    detail: []
+  };
   const formik = useFormik({
     initialValues:{
-      tanggal: tanggal,
-      supplier: '',
-      gudang: '',
-      noRef: '',
+      supplier:'',
+      gudang:'',
+      noRef:'',
+      tanggal:today,
     },
     validate,
-    onSubmit : async (values) => {
-      const {response, error, loading} = UseAxios({
-        method:"post",
-        url:"/penjualan",
-        headers: JSON.stringify({ accept: '*/*' }),
-        body: JSON.stringify(values),
-      });
-
+    onSubmit : (values) => {
+      nData.tgl_transaksi = values.tanggal;
+      nData.nama = props.supplierList[values.supplier].nama;
+      nData.no_ref = values.noRef;
+      nData.gudang_id = props.gudangList[values.gudang].id;
+      nData.gudang_nama = props.gudangList[values.gudang].nama;
       
+      setFetchParams({
+        method:"post",
+        url:"/transaksi",
+        data: nData
+      })
     },
   });
-  // useEffect(() => {
-  //   if (response !== null) {
-  //       setData(response);
-  //   }
-  // }, [response]);
+
+  
+  useEffect(() => {
+    if (response !== null) {
+      navigate(`/penerimaan-supplier/${response.id}`,{replace:true});
+    }
+  }, [response]);
 //=================================
   function getTanggal(value){
     setTanggal(value); 
     formik.values.tanggal=value;
   }
-
   
   return (
     <>
@@ -108,8 +136,11 @@ export default function PenerimaanBaru(props) {
               onChange={formik.handleChange} 
               >
               <option value="">Pilih</option>
-              <option value="1">Kahatex (Cijerah)</option>
-              <option value="2">Kahatex (Rancaekek) </option>
+              {props.supplierList.map((supplier,index)=>{
+                return(
+                  <option key={index} value={index}>{supplier.nama}</option>
+                )
+              })}
             </Form.Select>
           </FloatingLabel>
           {formik.errors.supplier ? <div className='form-error'>{formik.errors.supplier}</div> : null}
@@ -140,8 +171,11 @@ export default function PenerimaanBaru(props) {
               onChange={formik.handleChange} 
               id="gudangSelect">
               <option value="">Pilih</option>
-              <option value="1">Toko</option>
-              <option value="2">gudang </option>
+              {props.gudangList.map((gudang,index)=>{
+                return(
+                  <option key={index} value={index}>{gudang.nama}</option>
+                )
+              })}
             </Form.Select>
           </FloatingLabel>
           {formik.errors.gudang ? <div className='form-error'>{formik.errors.gudang}</div> : null}
@@ -158,6 +192,8 @@ export default function PenerimaanBaru(props) {
         </Modal.Footer>
       </Modal>
       
+      {(loading) && <Loader text={"saving..."}/>}
+
     </>
   )
 }

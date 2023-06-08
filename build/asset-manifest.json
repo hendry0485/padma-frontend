@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/hendry-dev/static/css/main.2824d411.css",
+    "main.js": "/hendry-dev/static/js/main.d8ff82e1.js",
+    "static/js/787.ba288f4b.chunk.js": "/hendry-dev/static/js/787.ba288f4b.chunk.js",
+    "static/media/Logo.png": "/hendry-dev/static/media/Logo.5323ac059c81281f2436.png",
+    "index.html": "/hendry-dev/index.html",
+    "main.2824d411.css.map": "/hendry-dev/static/css/main.2824d411.css.map",
+    "main.d8ff82e1.js.map": "/hendry-dev/static/js/main.d8ff82e1.js.map",
+    "787.ba288f4b.chunk.js.map": "/hendry-dev/static/js/787.ba288f4b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2824d411.css",
+    "static/js/main.d8ff82e1.js"
+  ]
+}

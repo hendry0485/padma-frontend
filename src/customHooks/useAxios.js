@@ -3,26 +3,29 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 axios.defaults.baseURL = "http://localhost:8000";
-axios.defaults.timeout = 2000;
+axios.defaults.withCredentials = true;
 
-const UseAxios = ({url, method, body = null, headers=null}) => {
+const UseAxios = (configParams) => {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
+    
 
-    const fetchData = () => {
+    const fetchData = async() => {
         try {
-            axios[method](url,JSON.parse(headers), JSON.parse(body))
+            axios.request(configParams)
             .then(function (response) {
-              setResponse(response.data);
+                setResponse(response.data);
             })
             .catch(function (error) {
                 setError(error);
             })
             .finally(function () {
-              // always executed
-              setLoading(false);
+                // always executed
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000);
             }); 
         } catch (err) {
             if (!err?.response) {
@@ -36,11 +39,12 @@ const UseAxios = ({url, method, body = null, headers=null}) => {
     }
 
     useEffect(() => {
-      fetchData();
-    }, [])
+        if (configParams.url == '' && configParams.method == '') return;
+        setLoading(true);
+        fetchData();
+    }, [(configParams.method.toString().toLowerCase() === 'get' ? null : configParams.url)])
 
     return {response, error, loading}
-    
 }
 
 export default UseAxios;

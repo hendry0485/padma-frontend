@@ -60,14 +60,16 @@ const router = createBrowserRouter([
               element:<MainLayout/>, //this is protectedLayout
               children:[
                 {
-                    element:<PenerimaanSupplier title={"Penerimaan Supplier"}/>,
-                    path:"/penerimaan-supplier/*",
+                    path:"/penerimaan-supplier/",
                     children:[
                       {
-                        element:<PenerimaanSupplierEdit/>,
+                        element:<PenerimaanSupplier  title={"Penerimaan Supplier"}/>,
+                        path:""
+                      },
+                      {
+                        element:<PenerimaanSupplierEdit  title={"Edit Penerimaan Supplier"}/>,
                         path:":id"
                       }
-
                     ]
                 }
               ]
@@ -75,6 +77,8 @@ const router = createBrowserRouter([
       ],
       errorElement:<ErrorPage/>
   }
-]);
+], 
+//{ basename: "/hendry-dev" }//only in production
+);
 
 export default router;

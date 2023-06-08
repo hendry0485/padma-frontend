@@ -1,21 +1,14 @@
-// import { useState } from "react"
-
-import { Formik } from "formik";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {Form, ListGroup, Badge, Button, InputGroup, Row, Col} from "react-bootstrap";
 import { BsBuilding, BsSearch } from 'react-icons/bs';
 import { FaEdit } from 'react-icons/fa';
 import Datepicker from "../../components/datepicker";
 import { NavLink } from "react-router-dom";
-import BreadcrumbBar from "../../components/breadcrumb";
-import NewPenerimaan from "./newModal";
+import NewModal from "./newModal";
 import Portlet from "../../components/portlet";
 import PageTitle from "../../components/pageTitle"
-import UseAxios from "../../customHooks/useAxiosFn";
-import axios from "axios";
-
-axios.defaults.baseURL = "http://pelita.local:81/cano/api";
-
+import UseAxios from "../../customHooks/useAxios";
+import Loader from "../../components/loader";
 
 export default function Daftar(props) {
   const getDate = new Date();
@@ -23,58 +16,45 @@ export default function Daftar(props) {
   
   const [tanggalFilter, setTanggalFilter] = useState(today);
   const [isFilterChange, setIsFilterChange] = useState(false);
-  let data = null;
+  const [supplier, setSupplier] = useState(0);
+  // const [data, setData] = useState([])
+  const [fetchParams, setFetchParams] = useState({
+    method:"get",
+    url:"/transaksi",
+    params: {
+      tgl_transaksi:tanggalFilter.split("/").reverse().join("-"),
+      supplier_id:supplier
+    }
+  });
+ 
+  const {response: data, error , loading} = UseAxios(fetchParams);
+  
+  const {response:gudangList , error:errorGudang, loading:loadingGudang} = UseAxios({
+    method:"get",
+    url:"/gudang"
+  });
 
-  // const [data, setData] = useState([]);
-  // const [response, setResponse] = useState(null);
-  // const [error, setError] = useState("");
-  // const [loading, setLoading] = useState(true);
-
-  // const {response : data, error, loading} = UseAxios({
-  //   method:"get",
-  //   url:"/header/show",
-  // });
-
-  // useEffect(() => {
-  //   if (response != null && typeof response.data.data !== 'undefined' ) {
-  //     setData(response.data.data);
-  //   }
-  // }, [response])
-
-  // const getData = (url, method, body = null, headers=null) => {
-  //   try {
-  //     axios[method](url,JSON.parse(headers), JSON.parse(body))
-  //       .then(function (response) {
-  //         setData(response.data.data);
-  //         console.log(response.data.data);
-  //       })
-  //       .catch(function (error) {
-  //           setError(error);
-  //       })
-  //       .finally(function () {
-  //         // always executed
-  //         setLoading(false);
-  //       }); 
-  //   } catch (err) {
-  //       if (!err?.response) {
-  //           setError("No Server Response");
-  //       }else if (err.response?.status === 409) {
-  //           setError("Username Taken");
-  //       } else {
-  //           setError("Transaction Failed");
-  //       }
-  //   }
-
-  // }
+  const {response:supplierList , error:errorSupplier, loading:loadingSupplier} = UseAxios({
+    method:"get",
+    url:"/supplier"
+  });
 
   // useEffect(() => {
-  //   getData("/header/show","get");
-  // }, [])
+  //   setData(data);
+  // }, [response]);  
   
 
   function getTanggalFilter(value){
     setIsFilterChange(true);
     setTanggalFilter(value); 
+    setFetchParams({
+      method:"get",
+      url:"/transaksi",
+      params: {
+        tgl_transaksi:value.split("/").reverse().join("-"),
+        supplier_id:supplier
+      }
+    })
   }
 
   const [show, setShow] = useState(false);
@@ -106,7 +86,7 @@ export default function Daftar(props) {
                   <Datepicker setDateValue={getTanggalFilter} tanggal={tanggalFilter}/>
                   <InputGroup className="mt-3">
                     <InputGroup.Text><BsBuilding/></InputGroup.Text>
-                    <Form.Select id="supplierSelect">
+                    <Form.Select defaultValue={supplier} onChange={(e)=>setSupplier(e.target.value)} id="supplierSelect">
                       <option value="">Semua</option>
                       <option value="1">Kahatex (Cijerah)</option>
                       <option value="2">Kahatex (Rancaekek) </option>
@@ -214,8 +194,10 @@ export default function Daftar(props) {
 
       {
         show && 
-        <NewPenerimaan title="Form Penerimaan Baru" show={show} handleShow={handleShow} handleClose={handleClose}/>
+        <NewModal title="Form Penerimaan Baru" show={show} gudangList={gudangList} supplierList={supplierList} handleShow={handleShow} handleClose={handleClose}/>
       }
+
+      {(loadingGudang ||  loadingSupplier) && <Loader text={"load data gudang & supplier..."}/>}
     </>
   )
 }
