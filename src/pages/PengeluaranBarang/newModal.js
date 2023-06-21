@@ -13,7 +13,7 @@ import Loader from "../../components/loader";
 
 
 
-export default function PenerimaanBaru(props) {
+export default function PenjualanBaru(props) {
   const getDate = new Date();
   const today = (getDate.getDate() < 10 ? '0'+getDate.getDate() : getDate.getDate() )+'/'+((getDate.getMonth()+1) < 10 ? '0' : "" )+(getDate.getMonth() + 1) + '/' + getDate.getFullYear();
   
@@ -37,8 +37,8 @@ export default function PenerimaanBaru(props) {
       errors.tanggal = 'Required';
     } 
 
-    if (!values.supplier) {
-      errors.supplier = 'Required';
+    if (!values.customer) {
+      errors.customer = 'Required';
     }
 
     if (!values.gudang) {
@@ -53,7 +53,7 @@ export default function PenerimaanBaru(props) {
   }
 
   const nData = {
-    kode_transaksi_id: "1",
+    kode_transaksi_id: "2",
     no_transaksi: "",
     tgl_transaksi: "",
     no_ref: "",
@@ -75,15 +75,17 @@ export default function PenerimaanBaru(props) {
   };
   const formik = useFormik({
     initialValues:{
-      supplier:'',
+      customer:'',
       gudang:'',
       noRef:'',
       tanggal:today,
     },
     validate,
     onSubmit : (values) => {
+      console.log(nData);
+
       nData.tgl_transaksi = values.tanggal;
-      nData.nama = props.supplierList[values.supplier].nama;
+      nData.nama = values.customer;
       nData.no_ref = values.noRef;
       nData.gudang_id = props.gudangList[values.gudang].id;
       nData.gudang_nama = props.gudangList[values.gudang].nama;
@@ -99,7 +101,7 @@ export default function PenerimaanBaru(props) {
   
   useEffect(() => {
     if (response !== null) {
-      navigate(`/penerimaan-supplier/${response.id}`,{replace:true});
+      navigate(`/pengeluaran-barang/${response.id}`,{replace:true});
     }
   }, [response]);
 //=================================
@@ -127,28 +129,16 @@ export default function PenerimaanBaru(props) {
           
           <br/>
 
-          {/* supplier */}
-          <FloatingLabel label="Supplier">
-            <Form.Select 
-              name="supplier"
-              value={formik.values.supplier}
+          {/* customer */}
+          <FloatingLabel label="Customer">
+            <Form.Control 
+              name="customer"
+              value={formik.values.customer}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange} 
-              >
-              <option value="">Pilih</option>
-              {
-                props.supplierList !== null 
-                ?
-                props.supplierList.map((supplier,index)=>{
-                  return(
-                    <option key={index} value={index}>{supplier.nama}</option>
-                  )
-                })
-                :<></>
-                }
-            </Form.Select>
+              />
           </FloatingLabel>
-          {formik.errors.supplier ? <div className='form-error'>{formik.errors.supplier}</div> : null}
+          {formik.errors.customer ? <div className='form-error'>{formik.errors.customer}</div> : null}
           <br/>
           {/* no referensi */}
           <FloatingLabel label="No Referensi">

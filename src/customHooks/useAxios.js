@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://192.168.2.26:8000";
 axios.defaults.withCredentials = true;
 
 const UseAxios = (configParams) => {

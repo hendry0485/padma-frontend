@@ -8,9 +8,9 @@ import Portlet from "../../components/portlet";
 import { styled } from "styled-components";
 import CustomSelectBarang from "../../components/customSelectBarang";
 import DividerText from "../../components/dividerText";
-import Numhelp from "../../components/numhelp";
-import useLocalStorage from "../../customHooks/useLocalStorage";
-import UseAxios from "../../customHooks/useAxios";
+import { useCustomNumpad } from "../../customHooks/useCustomNumpad";
+import Numpad from "../../components/numpad";
+
 
 
 const CellInput = styled.input`
@@ -23,40 +23,34 @@ const CellInput = styled.input`
 
 
 export default function PenerimaanBarangBaru(props) {
-  
-  const [dataTemp, setDataTemp] = useLocalStorage("data-temp", props.dataBarang);
-  const prevData = props.dataBarang.data;
-  if (prevData[(prevData.length-1)].qty != 0 ) {
-    prevData.push({
-      qty:0
-    })
-  }
-  const [dataBarang, setDataBarang] = useState(prevData);
+  const [dataBarang, setDataBarang] = useState([{
+    qty:0,
+    roll:0
+  }]);
   const [totalQty, setTotalQty] = useState(0)
   const [totalRoll, setTotalRoll] = useState(0)
-  const [showNumhelp, setShowNumhelp] = useState(true)
 
   let initSelected = {};
   if (typeof props.dataBarang.barang_id !== 'undefined' && props.dataBarang.barang_id !== '') {
     initSelected = props.barangList.filter(barang=>barang.id == props.dataBarang.barang_id)[0];
   }
   const [barangSelected, setBarangSelected] = useState(initSelected);
+  
   const [errorForm, setErrorForm] = useState('');
   const [isLocked, setIsLocked] = useState(false);
-  const [rowIndex, setRowIndex] = useState(0);
+  const [rowIndex, setRowIndex] = useState([0,'']);
   const [keyVal, setKeyVal] = useState("");
   const curVal = useRef('');
 
-  //=====================================================================
-  const [fetchParams, setFetchParams] = useState({
-    method:"",
-    url:"",
-    params: {}
-  });
- 
-  const {response: data, error , loading} = UseAxios(fetchParams);
-  //=====================================================================
-
+  const [showNumpad, setShowNumpad] = useState(false);
+  
+  const handleShowNumpad = () => {
+    setShowNumpad(true);
+  };
+  
+  const handleCloseNumpad = () => {
+    setShowNumpad(false);
+  }
 
   const getBarangSelected = (value) => {
     setBarangSelected(value)
@@ -67,19 +61,25 @@ export default function PenerimaanBarangBaru(props) {
     }
   }
 
-  const getKeyVal = async (value) => {
-    curVal.current = value;
-    await editQty(rowIndex, value);
-    await setRowIndex(rowIndex+1);
+  const getKeyVal = (value) => {
+    curVal.current = curVal.current + value;
+    if (rowIndex[1] == 'qty') {
+      editQty(rowIndex[0], curVal.current);
+    }else if(rowIndex[1] == 'roll'){
+      editRoll(rowIndex[0], curVal.current);
+    }
   }
 
   const editQty = (index, value) =>{
+    // console.log(index, value);
     const nList = [...dataBarang];
     nList[index].qty = value;
     const l = nList.length - 1 ;
+
     if (nList[l].qty != 0 ) {
       nList.push({
-        qty:0
+        qty:0,
+        roll:0
       });
     }
     
@@ -90,6 +90,15 @@ export default function PenerimaanBarangBaru(props) {
     setDataBarang(nList);
   }
   
+  const initNumpad = (index, tipe) => {
+    if(tipe == 'qty'){
+      curVal.current = '';
+    }
+    setRowIndex([index, tipe]);
+    handleShowNumpad();
+    
+  }
+
   const editRoll = (index, value) =>{
     const nList = [...dataBarang];
     nList[index].roll = value;
@@ -97,17 +106,26 @@ export default function PenerimaanBarangBaru(props) {
   }
 
   const nextInput = (key, index) => {
-    const tbl = document.querySelector(`#data-table`);
-    if(key === "Enter" && index < (dataBarang.length) ){
-      console.log(index);
-      if (typeof tbl.querySelector(`[tabindex="${index+2}"]`) != null) {
-        tbl.querySelector(`[tabindex="${index+2}"]`).focus();
-      }
+    if(key === "Enter" && index < (dataBarang.length*2)-1 ){
+      const tbl = document.querySelector(`#data-table`);      
+      tbl.querySelector(`[tabindex="${parseInt(index)+1}"]`).focus();     
     }
   }
 
+  const cekRoll = (index) => {
+    const nList = [...dataBarang];
+    if(nList[index].roll == '' && nList[index].qty != '' && nList[index].qty != 0){
+      nList[index].roll = 1;
+    }else if(nList[index].qty == '' || nList[index].qty == 0){
+      nList[index].roll = '';
+    }else{
+      return;
+    }
+    setDataBarang(nList);
+  }
+
   const cekQty = (index) => {
-    const nList = [...dataBarang]; 
+    const nList = [...dataBarang];
     if(nList[index].qty == '' || nList[index].qty == 0){
       nList[index].roll = '';
     }
@@ -121,8 +139,8 @@ export default function PenerimaanBarangBaru(props) {
     let totalRollNew = 0;
     dataBarang.forEach(list => {
       if(list.qty != ''){
-        totalRollNew++;
-        totalQtyNew += parseFloat(list.qty);
+        totalRollNew += parseInt(list.roll);
+        totalQtyNew += (list.qty * (list.roll == 0 ? 1 : list.roll));
       }
     });
     setTotalRoll(totalRollNew);
@@ -134,47 +152,28 @@ export default function PenerimaanBarangBaru(props) {
 
   const removeRow = (rIndex) => {
     const nList= dataBarang.filter((barang,index)=>index != rIndex);
-    setRowIndex(nList.length-1);
     setDataBarang(nList);
   }
 
   useEffect(() => {
     countTotal();
-    // console.log(barangSelected);
-    setDataTemp({
-      id:props.data_id,
-      barang_id:barangSelected.id,
-      data:dataBarang
-    });
-  }, [dataBarang, barangSelected]);
+  }, [dataBarang]);
 
   const wrapData = () => {
     setIsLocked(true);
     const bs = barangSelected;
     const nList = [];
-    const nowList = dataBarang.filter(barang=>barang.qty > 0)
-    setDataBarang(nowList);
     dataBarang.forEach((barang, index) => {
-      if (barang.qty > 0) {
-        nList.push({
-          nama:bs.nama,
-          barang_id:bs.id,
-          barang_nama:bs.nama,
-          warna_id:bs.warna_id,
-          warna_nama:bs.warna_nama,
-          qty:barang.qty,
-          roll:1,
-        })
-      }
+      nList.push({
+        nama:bs.nama,
+        barang_id:bs.id,
+        barang_nama:bs.nama,
+        warna_id:bs.warna_id,
+        warna_nama:bs.warna_nama,
+        qty:barang.qty,
+        roll:barang.roll,
+      })
     });
-
-    props.dataSet.detail = nList;
-    
-    setFetchParams({
-      method:"put",
-      url:`/transaksi/${props.data_id}`,
-      data:props.dataSet
-    })
 
   }
   
@@ -193,7 +192,7 @@ export default function PenerimaanBarangBaru(props) {
             <Col>
             <DividerText variant='l'>Daftar Barang</DividerText>
 
-              <CustomSelectBarang readonly={isLocked} initialValue={initSelected} setSelected={getBarangSelected} itemList={props.barangList} label={"Barang"}/>
+              <CustomSelectBarang readonly={isLocked} setSelected={getBarangSelected} initialValue={initSelected} itemList={props.barangList} label={"Barang"}/>
               <div className='form-error'>{errorForm}</div>
 
           
@@ -202,8 +201,9 @@ export default function PenerimaanBarangBaru(props) {
                 <Table className="my-3" id='data-table' striped bordered hover size="sm">
                   <thead>
                     <tr>
-                      <th></th>
                       <th className="text-center">Qty</th>
+                      <th className="text-center">Roll</th>
+                      <th className="text-center">Total</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -211,28 +211,51 @@ export default function PenerimaanBarangBaru(props) {
                       dataBarang.map((barang,index)=>{
                         return(
                           <tr key={index}>
-                            <td className="text-center">{index+1}</td>
                             <td className="text-center">
                               {
                                 !isLocked ? 
                                 <CellInput 
-                                  type="number"
+                                  inputMode="none"
+                                  readOnly
                                   value={(barang.qty == 0 ? '' : barang.qty)} 
-                                  tabIndex={index+1}
-                                  placeholder="0" 
-                                  onKeyDown={(e)=>nextInput(e.key, (index))} 
-                                  onChange={(e)=>editQty(index, e.target.value)}
-                                  onBlur={()=>{cekQty(index)}}
-                                  onClick={()=>{setRowIndex(index); setShowNumhelp(true)}}
+                                  tabIndex={(index*2)}
+                                  // placeholder="0" 
+                                  // onKeyDown={(e)=>nextInput(e.key, (index*2))} 
+                                  // onChange={(e)=>editQty(index, e.target.value)}
+                                  // onBlur={()=>{cekQty(index)}}
+                                  onClick={()=>initNumpad(index, 'qty')}
                                   />
                                 :
                                 <span>{barang.qty}</span>
                               }
                             </td>
+                            <td className="text-center">
+                              {
+                                !isLocked ? 
+                                  <CellInput 
+                                    inputMode="none"
+                                    readOnly
+                                    value={(barang.roll == 0 ? '' : barang.roll)} 
+                                    tabIndex={(index*2)+1}
+                                    // placeholder="0" 
+                                    // onKeyDown={(e)=>nextInput(e.key, (index*2)+1)}  
+                                    // onChange={(e)=>editRoll(index,e.target.value)}
+                                    // onBlur={()=>cekRoll(index)}
+                                    />
+                                :
+                                <span>{barang.roll}</span>
+
+                              }
+                            </td>
+                            <td style={{verticalAlign:"middle"}} className="fs-5 text-center">
+                              <label>
+                                {barang.qty * barang.roll}
+                              </label>
+                            </td>
                             {
                               !isLocked ? 
-                                <td className="text-center">
-                                  {(barang.qty) != 0 || (index != dataBarang.length - 1) ? 
+                                <td>
+                                  {(barang.qty * barang.roll) != 0 || (index != dataBarang.length - 1) ? 
                                     <span style={{color:"red",cursor:"pointer"}} onClick={()=>removeRow(index)}><FaTimes/></span>
                                     : <></>
                                   }
@@ -246,12 +269,14 @@ export default function PenerimaanBarangBaru(props) {
                   </tbody>
                   <tfoot>
                     <tr className="fs-5">
-                      <th className="text-center">T</th>
+                      <th className="text-center">TOTAL </th>
+                      <th className="text-center">{totalRoll}</th>
                       <th className="text-center">{totalQty}</th>
                     </tr>
                   </tfoot>
                 </Table>
               }
+                <div>{curVal.current}</div>
 
 
               {
@@ -260,16 +285,16 @@ export default function PenerimaanBarangBaru(props) {
                   <Alert variant="warning">
                     Dengan menyimpan data, maka program akan men'generate' no Barcode. <br/>
                     Jika ingin melanjutkan meyimpan data. Mohon input PIN anda
+
+
                   </Alert>
                 :<></>
               }
             </Col>
           </Row>
         </Portlet>
-            {
-              showNumhelp &&
-              <Numhelp handleClose={()=>setShowNumhelp(false)} returnVal={getKeyVal}/>
-            }
+
+
       </Modal.Body>
 
         <Modal.Footer>
@@ -280,6 +305,10 @@ export default function PenerimaanBarangBaru(props) {
             <FaSave/> Save Data
           </Button>
         </Modal.Footer>
+        {
+          showNumpad && 
+          <Numpad returnVal={getKeyVal} curVal={curVal} />
+        }
       </Modal>
 
       

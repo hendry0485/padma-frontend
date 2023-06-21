@@ -713,6 +713,113 @@
       "total_qty": 0,
       "detail": [],
       "id": 24
+    },
+    {
+      "kode_transaksi_id": "",
+      "no_transaksi": "",
+      "tgl_transaksi": "07/06/2023",
+      "no_ref": "adasdawer",
+      "nama": "Kahatex (Cijerah)",
+      "user_id": 1,
+      "user_nama": "",
+      "gudang_id": 1,
+      "gudang_nama": "Toko",
+      "catatan": null,
+      "status": 1,
+      "created_by": null,
+      "created_at": null,
+      "updated_by": null,
+      "updated_at": null,
+      "total_item": 0,
+      "total_unit": 0,
+      "total_qty": 0,
+      "id": 25,
+      "detail": [
+        {
+          "nama": "RJN WHITE",
+          "barang_id": 2,
+          "barang_nama": "RJN WHITE",
+          "warna_id": "7",
+          "warna_nama": "WHITE",
+          "qty": 155,
+          "roll": 1,
+          "flag": 0
+        },
+        {
+          "nama": "RJN WHITE",
+          "barang_id": 2,
+          "barang_nama": "RJN WHITE",
+          "warna_id": "7",
+          "warna_nama": "WHITE",
+          "qty": 100,
+          "roll": 1,
+          "flag": 1
+        },
+        {
+          "nama": "RJN WHITE",
+          "barang_id": 2,
+          "barang_nama": "RJN WHITE",
+          "warna_id": "7",
+          "warna_nama": "WHITE",
+          "qty": 100,
+          "roll": 1,
+          "flag": 1
+        },
+        {
+          "nama": "RJN WHITE",
+          "barang_id": 2,
+          "barang_nama": "RJN WHITE",
+          "warna_id": "7",
+          "warna_nama": "WHITE",
+          "qty": "99",
+          "roll": 1,
+          "flag": 1
+        }
+      ]
+    },
+    {
+      "kode_transaksi_id": "1",
+      "no_transaksi": "",
+      "tgl_transaksi": "20/06/2023",
+      "no_ref": "Test",
+      "nama": "Kahatex (Cijerah)",
+      "user_id": 1,
+      "user_nama": "",
+      "gudang_id": 1,
+      "gudang_nama": "Toko",
+      "catatan": null,
+      "status": 1,
+      "created_by": null,
+      "created_at": null,
+      "updated_by": null,
+      "updated_at": null,
+      "total_item": 0,
+      "total_unit": 0,
+      "total_qty": 0,
+      "detail": [],
+      "id": 26
+    },
+    {
+      "kode_transaksi_id": "2",
+      "no_transaksi": "",
+      "tgl_transaksi": "20/06/2023",
+      "no_ref": "Pop1840a",
+      "nama": "Agus",
+      "user_id": 1,
+      "user_nama": "",
+      "gudang_id": 1,
+      "gudang_nama": "Toko",
+      "catatan": null,
+      "status": 1,
+      "created_by": null,
+      "created_at": null,
+      "updated_by": null,
+      "updated_at": null,
+      "total_item": 0,
+      "total_unit": 0,
+      "total_qty": 0,
+      "detail": [],
+      "id": 27
     }
   ],
   "gudang": [
@@ -733,6 +840,26 @@
     {
       "id": 1,
       "nama": "Kahatex (Rancaekek)"
+    }
+  ],
+  "barang": [
+    {
+      "id": 1,
+      "nama": "RJN BLACK",
+      "barang_id": "1",
+      "warna_id": "1",
+      "barang_nama": "RJN",
+      "warna_nama": "BLACK",
+      "sku": "00000001"
+    },
+    {
+      "id": 2,
+      "nama": "RJN WHITE",
+      "barang_id": "1",
+      "warna_id": "7",
+      "barang_nama": "RJN",
+      "warna_nama": "WHITE",
+      "sku": "00000002"
     }
   ]
 }

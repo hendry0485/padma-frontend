@@ -172,7 +172,7 @@ export default function Daftar(props) {
                 Daftar Barang
                 {
                   data !== null && 
-                <Button style={{position:"absolute",top:"-5px", right:"0"}} onClick={()=>setShow(true)} size="sm" variant="light">+ Barang</Button>
+                  <Button style={{position:"absolute",top:"-5px", right:"0"}} onClick={()=>setShow(true)} size="sm" variant="light">+ Barang</Button>
                 }
               </div>
 

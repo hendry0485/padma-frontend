@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Routes } from "./routes";
 // Layout
 import HomeLayout from "./layouts/HomeLayout";
 import MainLayout from "./layouts/MainLayout";
@@ -16,6 +15,10 @@ import Dashboard from "./pages/Dashboard";
 import PenerimaanSupplier from "./pages/PenerimaanSupplier";
 import PenerimaanSupplierEdit from "./pages/PenerimaanSupplier/edit";
 
+//Penjualan
+import Penjualan from "./pages/PengeluaranBarang";
+import PenjualanEdit from "./pages/PengeluaranBarang/edit";
+
 
 //Error Pages
 import ErrorPage from "./pages/ErrorPage";
@@ -25,7 +28,6 @@ import { element } from "prop-types";
 function App() {
   return (
     <>
-      <Routes isAuthorized={true}/>
     </>
   );
 }
@@ -71,7 +73,20 @@ const router = createBrowserRouter([
                         path:":id"
                       }
                     ]
-                }
+                },
+                {
+                  path:"/pengeluaran-barang/",
+                  children:[
+                    {
+                      element:<Penjualan  title={"Penjualan"}/>,
+                      path:""
+                    },
+                    {
+                      element:<PenjualanEdit  title={"Edit Penjualan"}/>,
+                      path:":id"
+                    }
+                  ]
+              }
               ]
           }
       ],

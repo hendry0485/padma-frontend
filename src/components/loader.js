@@ -12,6 +12,7 @@ const LoaderLayer = styled.div`
     align-items:center;
     justify-content:center;
     color:white;
+    z-index:99;
 `
 
 export default function Loader(props) {

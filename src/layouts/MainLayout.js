@@ -3,6 +3,7 @@ import Navbar from '../pages/Navbar';
 import "./mainLayout.css"
 import { useAuthUser } from '../customHooks/useAuthUser';
 
+
 const MainLayout = () => {
   const {user} = useAuthUser();
 

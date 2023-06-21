@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import { Alert, Container, FloatingLabel, InputGroup } from "react-bootstrap";
 import {Form, Button, Row, Col} from "react-bootstrap";
-import Logo from "./Logo.png";
 import "./loginContainer.css";
 import DividerText from "../../components/dividerText";
 import { useState } from "react";
@@ -17,7 +16,7 @@ const Login = () => {
 
     const [userCode, setUserCode] = useState("");
     const [loginCode, setLoginCode] = useState(false);
-    const [toggleCode, setToggleCode] = useState(true)
+    const [toggleCode, setToggleCode] = useState(true);
     const [errMessage, setErrMessage] = useState('');
     const {login} = useAuthUser();
 
