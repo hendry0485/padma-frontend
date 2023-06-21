@@ -29,22 +29,6 @@ export default function Daftar(props) {
   const [dataBarang, setDataBarang] = useState([]);
   // const [rowLength, setRowLength] = useState(2);
 
-  let cekData = window.localStorage.getItem("data-temp");
-  
-  
-  if (cekData == null || cekData.id !== id) {
-    cekData = {
-      id:id,
-      barang_id:'',
-      data:[{
-        qty:0
-      }]
-    }
-
-    window.localStorage.setItem('data-temp', cekData)
-  }
-
-
   const {response:barangList , error:errorBarang, loading:loadingBarang} = UseAxios({
     method:"get",
     url:"/barang"
