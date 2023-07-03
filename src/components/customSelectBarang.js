@@ -2,6 +2,7 @@ import { useState } from "react"
 import { FloatingLabel, Form, ListGroup, InputGroup } from "react-bootstrap"
 import { styled } from "styled-components"
 import { FcCheckmark } from "react-icons/fc";
+import { useEffect } from "react";
 
 const DropdownBox = styled.div`
     width:100%;
@@ -25,12 +26,13 @@ export default function CustomSelectBarang(props) {
     const [textFilter, setTextFilter] = useState(props.initialValue.nama ? props.initialValue.nama : '');
     const [toggle, setToggle] = useState(false);
     const [inList, setInList] = useState(false);
+    const [selected, setSelected] = useState(props.initialValue);
 
     const clickItem = (target, data_id) => {
         const selected = props.itemList.filter((item)=>item.id == data_id);
         const id = selected[0].id;
         const text = selected[0].nama;
-        setTextFilter(text);
+        setSelected(selected[0]);
         props.setSelected(selected[0]);
         setToggle(false);
         setInList(true);
@@ -41,11 +43,14 @@ export default function CustomSelectBarang(props) {
             const selected = filteredData[0];
             const id = selected.id;
             const text = selected.nama;
-            setTextFilter(text);
+            setSelected(selected);
             props.setSelected(selected);
             setToggle(false);
             setInList(true);
         }else{
+            if (key === 'Escape') {
+                setToggle(false);
+            }
             setInList(false);
         }
     }
@@ -63,11 +68,21 @@ export default function CustomSelectBarang(props) {
     
     const filterData = (text) =>{
         const nList = (text.length > 0 ? props.itemList.filter(list=>list.nama.toString().toLowerCase().includes(textFilter.toLowerCase())): props.itemList );
-        props.setSelected({});
+        // props.setSelected({});
         setTextFilter(text);
         setFilteredData(nList);
 
     }
+
+    useEffect(() => {
+      if (toggle) {
+        setTextFilter('');
+        if(!isReadonly)
+            document.querySelector("#inputFilter").focus();
+        filterData('');
+      }
+    }, [toggle])
+    
 
     return (
         <>
@@ -77,29 +92,38 @@ export default function CustomSelectBarang(props) {
                     <FloatingLabel label={props.label}>
                         <Form.Control
                             data-class='cs-inp-f'
-                            onChange={(e)=>filterData(e.target.value)}  
-                            onKeyDown={(e)=>enterInput(e.key)} 
-                            onFocus={()=>setToggle(true)}
-                            value={textFilter}
-                            readOnly={isReadonly}
+                            onClick={()=>setToggle(true)}
+                            value={(selected.nama ? selected.nama : '')}
+                            readOnly
                         />
                     </FloatingLabel>
                     {
-                        (inList || isReadonly )  && <InputGroup.Text ><FcCheckmark/></InputGroup.Text>
+                        selected.nama  && <InputGroup.Text ><FcCheckmark/></InputGroup.Text>
                     }
                 </InputGroup>
                 {
-                    (toggle && !isReadonly )  && 
-                    <DropdownBox>
-                        <ListGroup>
-                            {filteredData.map((data, index)=>{
-                                return(
-                                    <ListGroup.Item data-class='cs-inp-f' style={listStyle} onMouseDown={(e)=>clickItem(e.target, data.id)} key={index} data-value={data.id}>{data.nama}</ListGroup.Item>
-                                )
-                            })}
+                    (toggle && !isReadonly )  &&
+                        <DropdownBox>
+                            <div
+                            className="py-2 px-1">
+                                <Form.Control
+                                    data-class='cs-inp-f'
+                                    onChange={(e)=>filterData(e.target.value)}  
+                                    onKeyDown={(e)=>enterInput(e.key)} 
+                                    onFocus={()=>setToggle(true)}
+                                    value={textFilter}
+                                    id="inputFilter"
+                                />
+                            </div>
+                            <ListGroup>
+                                {filteredData.map((data, index)=>{
+                                    return(
+                                        <ListGroup.Item data-class='cs-inp-f' style={listStyle} onMouseDown={(e)=>clickItem(e.target, data.id)} key={index} data-value={data.id}>{data.nama}</ListGroup.Item>
+                                    )
+                                })}
 
-                        </ListGroup>
-                    </DropdownBox>
+                            </ListGroup>
+                        </DropdownBox>
                 }
             </div>
         </>

@@ -19,10 +19,17 @@ import PenerimaanSupplierEdit from "./pages/PenerimaanSupplier/edit";
 import Penjualan from "./pages/PengeluaranBarang";
 import PenjualanEdit from "./pages/PengeluaranBarang/edit";
 
+//Assembly
+import Assembly from "./pages/Assembly";
+import AssemblyEdit from "./pages/Assembly/edit";
+
 
 //Error Pages
 import ErrorPage from "./pages/ErrorPage";
 import { element } from "prop-types";
+
+import { FcInTransit, FcTreeStructure, FcUndo, FcFullTrash, FcSynchronize, FcCalculator, FcLeft } from "react-icons/fc"
+
 
 
 function App() {
@@ -65,7 +72,7 @@ const router = createBrowserRouter([
                     path:"/penerimaan-supplier/",
                     children:[
                       {
-                        element:<PenerimaanSupplier  title={"Penerimaan Supplier"}/>,
+                        element:<PenerimaanSupplier icon={<FcInTransit/>}  title={"Penerimaan Supplier"}/>,
                         path:""
                       },
                       {
@@ -78,7 +85,7 @@ const router = createBrowserRouter([
                   path:"/pengeluaran-barang/",
                   children:[
                     {
-                      element:<Penjualan  title={"Penjualan"}/>,
+                      element:<Penjualan icon={<FcCalculator/>} title={"Penjualan"}/>,
                       path:""
                     },
                     {
@@ -86,7 +93,20 @@ const router = createBrowserRouter([
                       path:":id"
                     }
                   ]
-              }
+              },
+              {
+                path:"/assembly/",
+                children:[
+                  {
+                    element:<Assembly title={"Assembly (Split)"}/>,
+                    path:""
+                  },
+                  {
+                    element:<AssemblyEdit  title={"Edit Assembly"}/>,
+                    path:":id"
+                  }
+                ]
+            }
               ]
           }
       ],

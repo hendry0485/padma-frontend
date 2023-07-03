@@ -1,10 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
-import "./Dashboard.css";
 import { Col, Container, Row } from 'react-bootstrap';
 import { styled } from 'styled-components';
-import { FcInTransit, FcTreeStructure, FcUndo, FcFullTrash, FcSynchronize, FcCalculator } from "react-icons/fc"
+import { FcInTransit, FcTreeStructure, FcUndo, FcFullTrash, FcSynchronize, FcCalculator, FcLeft } from "react-icons/fc"
+import { useAuthUser } from '../../customHooks/useAuthUser';
 
 const DashboardBox = styled.div`
     background-color: white;
@@ -18,18 +18,19 @@ const DashboardBox = styled.div`
 `;
 
 const IconBox = styled.p`
-  font-size:20px;
+  font-size:2.5em;
 `
 
-
 const Dashboard = () => {
+  const {logout} = useAuthUser();
+
   const buttonList = [
     {text:"Penerimaan Supplier",
       link:'/penerimaan-supplier',
       icon:<FcInTransit/>
     },
     {text:"Penjualan",
-      link:'/penjualan',
+      link:'/pengeluaran-barang',
       icon:<FcCalculator/>
     },
     {text:"Assembly",
@@ -51,18 +52,24 @@ const Dashboard = () => {
   ];
 
   return (
-    <DashboardBox>
+    <DashboardBox id="pageContainer">
         <Row>
           {buttonList.map((button,index)=>{
             return (
               <NavLink key={index} className='col-6 col-sm-4 col-lg-3 d-grid p-1' style={{textDecoration:"none"}} to={button.link} >
-                <Button className='py-3 text-left' size="sm" variant="outline-secondary">
+                <Button className='py-3 text-left' size="sm" variant="light"  style={{boxShadow: "5px 5px 5px 0px rgba(0,0,0,0.5)"}}>
                     <IconBox>{button.icon}</IconBox>
                     {button.text.toString().toUpperCase()}
                 </Button>
               </NavLink>
             )
           })}
+              <NavLink className='col-6 col-sm-4 col-lg-3 d-grid p-1' style={{textDecoration:"none"}} onClick={logout} >
+                <Button className='py-3 text-left' size="sm" variant="light" style={{boxShadow: "5px 5px 5px 0px rgba(0,0,0,0.5)"}}>
+                    <IconBox><FcLeft/></IconBox>
+                    LOGOUT
+                </Button>
+              </NavLink>
         </Row>
     </DashboardBox>
   )

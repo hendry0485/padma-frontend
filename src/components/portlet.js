@@ -7,6 +7,9 @@ const ContainerBox = styled.div`
     border-radius: 5px;
     margin-bottom:30px;
     border-radius:3px;
+    border:1px solid #eee;
+
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.5);
 
     background:${(props=>(props.variant == 'dark' ? "#263238" : 'white'))};
     color:${(props=>(props.variant == 'dark' ? "white" : 'inherit'))};

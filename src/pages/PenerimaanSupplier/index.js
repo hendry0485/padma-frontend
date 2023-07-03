@@ -23,7 +23,8 @@ export default function Daftar(props) {
     url:"/transaksi",
     params: {
       tgl_transaksi:tanggalFilter.split("/").reverse().join("-"),
-      supplier_id:supplier
+      supplier_id:supplier,
+      kode_transaksi_id:1
     }
   });
  
@@ -52,7 +53,8 @@ export default function Daftar(props) {
       url:"/transaksi",
       params: {
         tgl_transaksi:value.split("/").reverse().join("-"),
-        supplier_id:supplier
+        supplier_id:supplier,
+        kode_transaksi_id:1
       }
     })
   }
@@ -65,13 +67,8 @@ export default function Daftar(props) {
   
   return (
     <>
-
       <PageTitle>
-        {props.title.toString()}
-
-        <div className="col-xs">
-          <div className="d-none d-sm-block mt-2 fw-bold fs-3">{props.title.toString().toUpperCase()}</div>
-        </div>
+        {props.title.toString().toUpperCase()}
       </PageTitle>
       
       <Portlet>

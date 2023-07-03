@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 
-axios.defaults.baseURL = "http://192.168.2.26:8000";
+axios.defaults.baseURL = "http://192.168.2.26:8001";
 axios.defaults.withCredentials = true;
 
 const UseAxios = (configParams) => {
@@ -10,13 +10,22 @@ const UseAxios = (configParams) => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    
-
     const fetchData = async() => {
         try {
             axios.request(configParams)
             .then(function (response) {
-                setResponse(response.data);
+                if(configParams.url.includes('user')){
+                    const res = response.data[0];
+                    const nList = {
+                        id:res.id,
+                        username:res.username,
+                        posisi_id:res.posisi_id
+                    }
+                    setResponse(nList);
+
+                }else{
+                    setResponse(response.data);
+                };
             })
             .catch(function (error) {
                 setError(error);
@@ -42,7 +51,7 @@ const UseAxios = (configParams) => {
         if (configParams.url == '' && configParams.method == '') return;
         setLoading(true);
         fetchData();
-    }, [(configParams.method.toString().toLowerCase() === 'get' ? null : configParams.url)])
+    }, [configParams.url, configParams.data, configParams.params])
 
     return {response, error, loading}
 }

@@ -7,8 +7,9 @@ import { useState } from "react";
 import BarcodeReaderCamera from "../../components/barcodeReaderCamera";
 import { IoCameraOutline, IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { useAuthUser } from "../../customHooks/useAuthUser";
-import axios from "../../api/axios";
 import { useEffect } from "react";
+import UseAxios from "../../customHooks/useAxios";
+
 
 
 
@@ -19,6 +20,14 @@ const Login = () => {
     const [toggleCode, setToggleCode] = useState(true);
     const [errMessage, setErrMessage] = useState('');
     const {login} = useAuthUser();
+
+    const [fetchParams, setFetchParams] = useState({
+        method:"",
+        url:"",
+        data:{}
+    });
+
+    const {response, error , loading} = UseAxios(fetchParams);
 
     const validate = values => {
         const errors = {}; 
@@ -40,39 +49,18 @@ const Login = () => {
         validate,
         onSubmit : async (values) => {
             setErrMessage("");
-            try {
-                await axios.get(
-                  "/users",{
-                    params:{
-                        username:values.username,
-                        PIN:values.password
-                    }
-                  }
-                ).then(function (response) {
-                  if (response.data.length > 0) {
-                    setErrMessage("");
-                    login(values.username);
-                    // login(response.data.username);
-                }else{
-                    console.log(values);
-                    setErrMessage("Username And Password no match");
-                  }
-                })
-                .catch(function (error) {
-                    setErrMessage(error);
-                })
-                .finally(function () {
-                  // always executed
-                });  
-                // setUser(data);
-                // navigate("/dashboard",{replace:true});
-            } catch (err) {
-                if (!err?.response) {
-                    setErrMessage("No Server Response");
+            setFetchParams({
+                method:"get",
+                url:"/users",
+                params:{
+                    username:values.username,
+                    pin:values.password
                 }
-            }
+            })
         },
     });
+
+
 
     const [show, setShow] = useState(false);
 
@@ -82,6 +70,12 @@ const Login = () => {
             setShow(false);
         }
     };
+
+    useEffect(() => {
+        if (response !== null) {
+            login(response);
+        }
+      }, [response]);  
 
     useEffect(() => {
       if (userCode.length > 0) {
@@ -199,7 +193,6 @@ const Login = () => {
                     </Row>
                 </Container>
             </div>
-
         </div>
 
         {show && <BarcodeReaderCamera handleClose={()=>setShow(false)} setCode={(val)=>handleCloseModal(val)}/>}

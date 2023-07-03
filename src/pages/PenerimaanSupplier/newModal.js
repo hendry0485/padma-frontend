@@ -2,11 +2,9 @@
 
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
-import {Form, Button, FloatingLabel, Modal, CloseButton, Alert} from "react-bootstrap";
-import { BsBuilding } from 'react-icons/bs';
-import { FaWarehouse, FaSave } from 'react-icons/fa';
-import { GrDocumentText } from 'react-icons/gr';
-import { NavLink, useNavigate } from "react-router-dom";
+import {Form, Button, FloatingLabel, Modal, CloseButton} from "react-bootstrap";
+import { FaSave } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 import DatepickerFloating from "../../components/datepickerFloating";
 import UseAxios from "../../customHooks/useAxios";
 import Loader from "../../components/loader";
@@ -82,7 +80,7 @@ export default function PenerimaanBaru(props) {
     },
     validate,
     onSubmit : (values) => {
-      nData.tgl_transaksi = values.tanggal;
+      nData.tgl_transaksi = values.tanggal.split('/').reverse().join('-');
       nData.nama = props.supplierList[values.supplier].nama;
       nData.no_ref = values.noRef;
       nData.gudang_id = props.gudangList[values.gudang].id;

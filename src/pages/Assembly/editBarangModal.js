@@ -104,6 +104,7 @@ export default function EditBarangModal(props) {
         <Portlet>
           <Row>
             <Col>
+              {/* <DividerText variant='l'>Daftar Barang</DividerText> */}
 
               <FloatingLabel controlId="floatingTanggal" label="barang">
               {
@@ -112,8 +113,6 @@ export default function EditBarangModal(props) {
                 : <FiLoader/>
               }
               </FloatingLabel>
-              
-              <DividerText variant='l'>Daftar Barang</DividerText>
               
               <ListGroup ref={listRef} style={{maxHeight: '375px', overflowY:'scroll'}}>
                 

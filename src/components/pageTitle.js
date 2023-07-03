@@ -9,13 +9,24 @@ const TitleBox = styled.div`
     border-radius:3px;
     color:#263238;
     background:transparent;
+    font-weight:600;
+    color:white;
+    position:relative; 
+    text-align:center;
 `;
 
-const PageTitle = ({ children }) => {
+const IconBox = styled.div`
+  position:absolute;
+  top:0px;
+  right:20px;
+  font-size:3em;
+`;
+
+const PageTitle = ({icon, children }) => {
   return (
     <TitleBox>
         <Container>
-            <div className="fs-3">{children}</div>
+            <div>{children}</div>
         </Container>
     </TitleBox>
   )

@@ -190,11 +190,11 @@ export default function PenerimaanBarangBaru(props) {
         <Portlet>
           <Row>
             <Col>
-            <DividerText variant='l'>Daftar Barang</DividerText>
 
               <CustomSelectBarang readonly={isLocked} setSelected={getBarangSelected} initialValue={initSelected} itemList={props.barangList} label={"Barang"}/>
               <div className='form-error'>{errorForm}</div>
 
+              <DividerText variant='l'>Daftar Barang</DividerText>
           
               {/* <Button variant="primary">Add Barang</Button> */}
               {
@@ -215,14 +215,12 @@ export default function PenerimaanBarangBaru(props) {
                               {
                                 !isLocked ? 
                                 <CellInput 
-                                  inputMode="none"
-                                  readOnly
                                   value={(barang.qty == 0 ? '' : barang.qty)} 
                                   tabIndex={(index*2)}
-                                  // placeholder="0" 
-                                  // onKeyDown={(e)=>nextInput(e.key, (index*2))} 
-                                  // onChange={(e)=>editQty(index, e.target.value)}
-                                  // onBlur={()=>{cekQty(index)}}
+                                  placeholder="0" 
+                                  onKeyDown={(e)=>nextInput(e.key, (index*2))} 
+                                  onChange={(e)=>editQty(index, e.target.value)}
+                                  onBlur={()=>{cekQty(index)}}
                                   onClick={()=>initNumpad(index, 'qty')}
                                   />
                                 :
@@ -233,14 +231,12 @@ export default function PenerimaanBarangBaru(props) {
                               {
                                 !isLocked ? 
                                   <CellInput 
-                                    inputMode="none"
-                                    readOnly
                                     value={(barang.roll == 0 ? '' : barang.roll)} 
                                     tabIndex={(index*2)+1}
-                                    // placeholder="0" 
-                                    // onKeyDown={(e)=>nextInput(e.key, (index*2)+1)}  
-                                    // onChange={(e)=>editRoll(index,e.target.value)}
-                                    // onBlur={()=>cekRoll(index)}
+                                    placeholder="0" 
+                                    onKeyDown={(e)=>nextInput(e.key, (index*2)+1)}  
+                                    onChange={(e)=>editRoll(index,e.target.value)}
+                                    onBlur={()=>cekRoll(index)}
                                     />
                                 :
                                 <span>{barang.roll}</span>
@@ -305,10 +301,7 @@ export default function PenerimaanBarangBaru(props) {
             <FaSave/> Save Data
           </Button>
         </Modal.Footer>
-        {
-          showNumpad && 
-          <Numpad returnVal={getKeyVal} curVal={curVal} />
-        }
+        
       </Modal>
 
       

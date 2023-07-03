@@ -6,13 +6,18 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import "./navbar.css";
 import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { Dropdown } from 'react-bootstrap';
+import { Button, Dropdown } from 'react-bootstrap';
 import NavItem from 'react-bootstrap/NavItem';
-import { FaRegUser } from 'react-icons/fa';
+import { FaEllipsisV } from 'react-icons/fa';
+import { BiPowerOff } from 'react-icons/bi';
 import { useAuthUser } from '../../customHooks/useAuthUser';
 
 const MenuBar = (props) => {
   const {logout} = useAuthUser();
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const buttonList = [
     {text:"Registrasi Barcode",
@@ -46,49 +51,45 @@ const MenuBar = (props) => {
       {['sm'].map((expand,indexKey) => (
         <Navbar 
           key={indexKey} 
-          bg="light"
           variant='light' 
           expand="lg"
           collapseOnSelect
           >
           <Container>
-            <Navbar.Brand>
-              <Link to="/" style={{textDecoration:'none',color:'inherit'}}>
+            <Navbar.Brand className='pt-2'>
+
+              <Link to="/" style={{textDecoration:'none',color:'white'}}>
                 PELITA ABADI
               </Link>
             </Navbar.Brand>
-              <div style={{display:"flex",alignItems:"center", justifyContent:"space-beetween"}}>
-                  <Dropdown as={NavItem} className='px-3'>
-                    <Dropdown.Toggle as={Nav.Link}  className="justify-content-end"><FaRegUser/></Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item>
-                        <Nav.Link onClick={logout}>Logout</Nav.Link>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  <Navbar.Toggle/>
-              </div>
+            <Navbar.Text>
+              <span onClick={()=>setShow(true)} style={{color:'white'}}><FaEllipsisV/></span>
+            </Navbar.Text>
+              
             
             <Navbar.Offcanvas 
+              show={show}
               bg="dark"
               id={`offcanvasNavbar-expand-${expand}`}
               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
               placement="end"
+              onHide={handleClose}
               >
                 <Offcanvas.Header closeButton>
-                  <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                    MENU
-                  </Offcanvas.Title>
+                    <Nav.Link style={{color:'blue'}} onClick={logout}>
+                      <BiPowerOff/> logout
+                    </Nav.Link>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav id="nav-menu" className='justify-content-end flex-grow-1 pe-3'>
                     {buttonList.map((button,index)=>{
                       return (
-                        <Nav.Link eventKey={index} as={NavLink} key={index} to={button.link} disabled={!button.enabled} >
+                        <Nav.Link onClick={handleClose} eventKey={index} as={NavLink} key={index} to={button.link} disabled={!button.enabled} >
                             {button.text.toString().toUpperCase()}
                         </Nav.Link>
                       )
                     })}
+                    
                   </Nav>
                 </Offcanvas.Body>
             </Navbar.Offcanvas>
