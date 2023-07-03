@@ -30,7 +30,8 @@
 #pageContainer{
     min-height: 100vh;
     position: relative;
-    background:url('../images/layered-waves-green-rev.svg');
+    /* background:url('../images/layered-waves-green-rev.svg'); */
+    background:#0a5f59;
     background-size: cover;
     overflow-y: auto;
     transform:scale(1,-1) translate(0,-100);
