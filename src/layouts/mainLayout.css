@@ -31,11 +31,32 @@
     min-height: 100vh;
     position: relative;
     /* background:url('../images/layered-waves-green-rev.svg'); */
-    background:#0a5f59;
+    background: #f2f5fd;
+    /* Lestari */
+    background-image: linear-gradient(180deg, #398348  30vh, #f2f5fd 25vh);
+    /* Abadi */
+    background-image: linear-gradient(180deg, #468fb8  30vh, #f2f5fd 25vh);
+    /* Sejati */
+    background-image: linear-gradient(180deg, #a22425  27vh, white 25vh);
     background-size: cover;
     overflow-y: auto;
-    transform:scale(1,-1) translate(0,-100);
-    
+    transform:scale(1,-1) translate(0,-100);   
+}
+
+nav{
+    /* // lestari */
+    box-shadow: 5px 5px 5px 0px rgba(14, 103, 32,0.5);
+    /* // abadi */
+    box-shadow: 5px 5px 5px 0px rgba(70, 143, 184,0.5);
+    /* // sejati */
+    box-shadow: 5px 5px 5px 0px rgba(162, 36, 37,0.5);
+
+    color: white;
+    /* background-color:black; */
+}
+
+#pageContent{
+    /* padding: 20px; */
 }
 
 .listContainer{
@@ -49,15 +70,19 @@
 }
 
 @media (min-width:768px) {
-    /* #pageContainer{
-        padding:30px 20px;
-    } */
+    #pageContent{
+        /* padding: 20px; */
+    }
 }
 
 @media (max-width:500px) {
     /* #pageContainer{
         padding:10px;
     } */
+
+    #pageContent{
+        /* padding: 15px; */
+    }
 
     .form-error{
         font-size: 12px;

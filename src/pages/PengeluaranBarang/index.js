@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {Form, ListGroup, Badge, Button, InputGroup, Row, Col} from "react-bootstrap";
+import {Form, ListGroup, Badge, Button, InputGroup, Row, Col, Container} from "react-bootstrap";
 import { BsBuilding, BsSearch } from 'react-icons/bs';
 import { FaEdit } from 'react-icons/fa';
 import Datepicker from "../../components/datepicker";
@@ -38,7 +38,6 @@ export default function Daftar(props) {
     display:"flex",
     flexDirection: "row",
     alignItems: "center",
-    background: "rgba(0,0,0,0.1)",
     justifyContent: "center",
     border:"none",
     textDecoration:"none",
@@ -62,6 +61,10 @@ export default function Daftar(props) {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [textFilter, setTextFilter] = useState('')
+
+  const [showFilter, setShowFilter] = useState(false);
+  const handleCloseFilter = () => setShowFilter(false);
+  const handleShowFilter = () => setShowFilter(true);
   
   const [fetchParams, setFetchParams] = useState({
     method:"get",
@@ -97,6 +100,7 @@ export default function Daftar(props) {
       }
     });
     setIsFilterChange(false);
+    handleCloseFilter();
 
   }
 
@@ -153,10 +157,20 @@ export default function Daftar(props) {
       <Portlet>
         <Row>
           <Col
-            className="pt-4" 
+            className="d-grid" 
             xs={12} 
             md={4}
             >
+
+            <Button onClick={()=>{setShow(true)}} className='col mt-3' size="md" variant="primary">
+              Penjualan Baru 
+            </Button>
+
+            <hr/>
+            Filter : 
+
+            {
+              showFilter ?
             <Form >
                 <>
                   <Datepicker setDateValue={getTanggalFilter} tanggal={tanggalFilter}/>
@@ -166,25 +180,26 @@ export default function Daftar(props) {
                     </Button>
                   </div>
                 </>
-            </Form>
+            </Form>:
+                <h4 className="">
+                  <Badge bg="secondary" onClick={()=>handleShowFilter()} >{tanggalFilter}</Badge>
+                </h4>
+              }
 
-              <div  className='col d-grid'>
-                <Button onClick={()=>{setShow(true)}} className='col mt-3' size="md" variant="primary">
-                  Penjualan Baru 
-                </Button>
-              </div>
+              
           </Col>
         </Row>
       </Portlet>
-      <Portlet>
+      <Container>
         <Row>
         <Col 
             className="pt-4"
             xs={12} 
             md={8}
             >
+
             
-            <ListGroup as="ol" className="listdiv">
+            <ListGroup as="ol" className="list-group-flush">
               <ListGroup.Item
                 style={{
                 backgroundColor:(textFilter.length > 0 ? 'lightpink' : 'white')
@@ -253,7 +268,7 @@ export default function Daftar(props) {
             
           </Col>
         </Row>
-      </Portlet>
+      </Container>
 
 
       {

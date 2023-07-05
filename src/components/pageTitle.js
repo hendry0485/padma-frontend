@@ -2,10 +2,7 @@ import { Container } from "react-bootstrap";
 import { styled } from "styled-components";
 
 const TitleBox = styled.div`
-    background-color: white;
     border-radius: 5px;
-    margin-bottom:20px;
-    margin-top:40px;
     border-radius:3px;
     color:#263238;
     background:transparent;
@@ -13,6 +10,11 @@ const TitleBox = styled.div`
     color:white;
     position:relative; 
     text-align:center;
+    height:10vh;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    
 `;
 
 const IconBox = styled.div`

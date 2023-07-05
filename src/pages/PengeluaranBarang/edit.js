@@ -157,12 +157,11 @@ export default function Daftar(props) {
 
       <Portlet>
         <Row>
-          <Col>
-              <div style={{position:"relative"}}>
-                Daftar Barang
+          <Col className="col-12 pt-4">
+              <div className="d-grid">
                 {
                   data !== null && 
-                  <Button style={{position:"absolute",top:"-5px", right:"0"}} onClick={()=>setShow(true)} size="sm" variant="light">+ Barang</Button>
+                  <Button variant="primary" className="float-end" onClick={()=>setShow(true)} size="md" >+ Barang</Button>
                 }
               </div>
 

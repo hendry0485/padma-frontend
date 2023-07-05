@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;500;600;700&display=swap');
+
+$font-family-sans-serif: 'Montserrat', Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-base: 'Montserrat', Roboto, system-ui, "Segoe UI" !default;
+
+// $theme-colors : (
+//     "text": #070305,
+//     "background": #f2f5fd,
+//     "primary": #0e6720,
+//     "secondary": #dddddd,
+//     "accent": #63d4b2
+// );
+
+@import '../../node_modules/bootstrap/scss/bootstrap';

@@ -1,0 +1,29 @@
+@import './scss/config';
+
+
+.App{
+    height: 100vh;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', 'Roboto',BlinkMacSystemFont, 'Segoe UI';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.loading-icon {
+    color: teal;
+    font-size: 2rem;
+    animation: animasi 2s infinite;
+  }
+  
+  @keyframes animasi {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(720deg);
+    }
+  }
+  

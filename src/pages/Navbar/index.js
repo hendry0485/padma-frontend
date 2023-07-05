@@ -51,7 +51,8 @@ const MenuBar = (props) => {
       {['sm'].map((expand,indexKey) => (
         <Navbar 
           key={indexKey} 
-          variant='light' 
+          variant='light'
+          text="primary"
           expand="lg"
           collapseOnSelect
           >

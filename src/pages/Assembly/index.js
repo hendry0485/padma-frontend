@@ -6,6 +6,7 @@ import Datepicker from "../../components/datepicker";
 import { NavLink, Navigate } from "react-router-dom";
 import NewModal from "./newModal";
 import Portlet from "../../components/portlet";
+import PortletNoPadding from "../../components/portletNoPadding";
 import PageTitle from "../../components/pageTitle"
 import UseAxios from "../../customHooks/useAxios";
 import Loader from "../../components/loader";
@@ -156,29 +157,22 @@ export default function Daftar(props) {
     <>
 
       <PageTitle icon={props.icon}>
-        {props.title.toString().toUpperCase()}
+        {props.title.toString().toUpperCase()} <br/>
       </PageTitle>
 
-      <Container style={{color:'white'}}>
-        <Row>
-            <Col xs={6} onClick={()=>{setShow(true)}} >
-              Assembly Baru 
-            </Col>
-            <Col xs={6}>
-              Filter
-            </Col>
-        </Row>
         
-      </Container>
-      
-      
         <Portlet>
           <Row>
             <Col
-              className="" 
+              className="d-grid" 
               xs={12} 
               md={4}
               >
+
+              <Button className="mt-4" variant="primary">
+                + Baru
+              </Button>
+              <hr/>
               Filter : 
               {
               showFilter ?
@@ -194,22 +188,23 @@ export default function Daftar(props) {
                 </Form>
                 :
                 <h4 className="">
-                  <Badge pill bg="dark" onClick={()=>handleShowFilter()} text='light'>{tanggalFilter}</Badge>
+                  <Badge bg="secondary" onClick={()=>handleShowFilter()} >{tanggalFilter}</Badge>
                 </h4>
               }
             </Col>
           </Row>
         </Portlet>
-      <Portlet>
+      <Container>
         <Row>
           <Col 
             className="pt-2"
             xs={12} 
             md={8}
             >
-            
-            <ListGroup as="ol" className="listdiv">
-              <ListGroup.Item
+            <ListGroup as="ol" className="list-group-flush">
+              {
+              // optional for search bar
+              /* <ListGroup.Item
                 style={{
                 backgroundColor:(textFilter.length > 0 ? 'lightpink' : 'white')
               }}>
@@ -222,7 +217,7 @@ export default function Daftar(props) {
                     onChange={(e)=>filterData(e.target.value)}
                     style={{border:'none', backgroundColor:'transparent'}}
                   />
-              </ListGroup.Item>
+              </ListGroup.Item> */}
               {
 
                 filteredData != null && 
@@ -255,7 +250,7 @@ export default function Daftar(props) {
                 }) : 
                   <ListGroup.Item > 
                     <div className="px-2">
-                      <div className="fw-bold">No Data Found</div>
+                      <div className="fw-medium">No Data Found</div>
                       <small>--</small>
                     </div>
                   </ListGroup.Item>
@@ -264,13 +259,13 @@ export default function Daftar(props) {
                 <ListGroup.Item 
                   action variant="light"
                   as="li"
-                  className="pb-3"
+                  className=""
                   > 
                   <div style={{position:'relative'}} 
                     className="d-flex justify-content-between align-items-start mb-1">
                     <div as="Button" style={linkStyled}>
                       <div style={{...btnStyled, width:'60px'}}>
-                        edit
+                        6 <small>Item</small>
                       </div>                  
                     </div>
                       
@@ -280,42 +275,6 @@ export default function Daftar(props) {
                       </NavLink>
                       <small>Anthony (1)</small>
                     </div>
-                  </div>
-                  <div>
-                    <table width={'100%'} style={{fontSize:"14px"}}>
-                      <tr>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Black</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-                      <tr style={tblEvenRow}>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan Campur Deep Maroon</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-
-                      <tr>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Blue</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-                      <tr style={tblEvenRow}>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan White</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-
-                      <tr>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Blue</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-                      <tr style={tblEvenRow}>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan White</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-                    </table>
                   </div>
 
                 </ListGroup.Item>
@@ -342,38 +301,40 @@ export default function Daftar(props) {
                   </div>
                   <div>
                     <table width={'100%'} style={{fontSize:"14px"}}>
-                      <tr>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Black</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-                      <tr style={tblEvenRow}>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan Deep Maroon</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
+                      <tbody>
+                        <tr>
+                          <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Black</td>
+                          <td style={{padding:"1px 5px"}}>35</td>
+                          <td style={{padding:"1px 5px"}}>65</td>
+                        </tr>
+                        <tr style={tblEvenRow}>
+                          <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan Deep Maroon</td>
+                          <td style={{padding:"1px 5px"}}>35</td>
+                          <td style={{padding:"1px 5px"}}>65</td>
+                        </tr>
 
-                      <tr>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Blue</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-                      <tr style={tblEvenRow}>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan White</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
+                        <tr>
+                          <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Blue</td>
+                          <td style={{padding:"1px 5px"}}>35</td>
+                          <td style={{padding:"1px 5px"}}>65</td>
+                        </tr>
+                        <tr style={tblEvenRow}>
+                          <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan White</td>
+                          <td style={{padding:"1px 5px"}}>35</td>
+                          <td style={{padding:"1px 5px"}}>65</td>
+                        </tr>
 
-                      <tr>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Blue</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
-                      <tr style={tblEvenRow}>
-                        <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan White</td>
-                        <td style={{padding:"1px 5px"}}>35</td>
-                        <td style={{padding:"1px 5px"}}>65</td>
-                      </tr>
+                        <tr>
+                          <td style={{padding:"1px 5px",textAlign:'left'}}>RJN Blue</td>
+                          <td style={{padding:"1px 5px"}}>35</td>
+                          <td style={{padding:"1px 5px"}}>65</td>
+                        </tr>
+                        <tr style={tblEvenRow}>
+                          <td style={{padding:"1px 5px",textAlign:'left'}}>Heavy Taslan White</td>
+                          <td style={{padding:"1px 5px"}}>35</td>
+                          <td style={{padding:"1px 5px"}}>65</td>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
 
@@ -383,7 +344,7 @@ export default function Daftar(props) {
             
           </Col>
         </Row>
-      </Portlet>
+      </Container>
 
 
       {

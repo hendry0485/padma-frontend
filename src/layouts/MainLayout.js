@@ -15,7 +15,9 @@ const MainLayout = () => {
     <>
       <div id="pageContainer" >
         <Navbar/>
-        <Outlet/>
+        <div id="pageContent" >
+          <Outlet/>
+        </div>
       </div>
     </>
   )

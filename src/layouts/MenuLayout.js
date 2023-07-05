@@ -13,7 +13,6 @@ const MenuLayout = () => {
   return (
     <>
       <div id="pageContainer" >
-        <Navbar/>
         <Outlet/>
       </div>
     </>
