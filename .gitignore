@@ -45,6 +45,10 @@ jspm_packages/
 # Dummy Data
 data/
 
+# config css
+src/scss/
+src/App.scss
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

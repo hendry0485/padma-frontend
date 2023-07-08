@@ -9,7 +9,7 @@ import MenuLayout from "./layouts/MenuLayout";
 import Login from "./pages/Login";
 // Pages
 import Home from "./Home";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/prototype";
 
 //Penerimaan
 import PenerimaanSupplier from "./pages/PenerimaanSupplier";

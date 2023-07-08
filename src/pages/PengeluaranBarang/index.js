@@ -181,8 +181,8 @@ export default function Daftar(props) {
                   </div>
                 </>
             </Form>:
-                <h4 className="">
-                  <Badge bg="secondary" onClick={()=>handleShowFilter()} >{tanggalFilter}</Badge>
+                <h4 className="" style={{cursor:"pointer"}}>
+                  <Badge bg="secondary" onClick={()=>handleShowFilter()} >{tanggalFilter}  <FaEdit/></Badge>
                 </h4>
               }
 
